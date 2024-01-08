@@ -1,0 +1,30 @@
+﻿@page
+@using Lab.Core.IdentityServer.Pages.Manage.Profile
+@model ProfileModel
+@{
+    ViewData["Title"] = "Claims";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>Use another service to register.</h3>
+            <hr />
+            <h2>Claims</h2>
+
+            <dl>
+                @foreach (var claim in User.Claims)
+                {
+                    <dt>@claim.Type</dt>
+                    <dd>@claim.Value</dd>
+                }
+            </dl>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

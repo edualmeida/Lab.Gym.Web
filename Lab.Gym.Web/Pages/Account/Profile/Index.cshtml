@@ -1,0 +1,75 @@
+﻿@page
+@using Lab.Core.IdentityServer.Pages.Manage.Profile
+@model ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+    var btnName = Model.IsEdit ? "Register" : "Save";
+    var readonlyTag = Model.IsEdit ? "readonly" : null;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Your profile info.</h4>
+            <hr />
+            <input type="hidden" asp-for="Input.UserId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <dt>
+                    Email
+                </dt>
+                <dd>@Model.Input.Email</dd>
+            </div>
+            <div class="form-floating mb-3">
+                <dt>
+                    Full Name
+                </dt>
+                <dd>@Model.Input.FullName</dd>
+            </div>
+            <div class="form-floating mb-3">
+                <dt>
+                    Birth Date
+                </dt>
+                <dd>@Model.Input.BirthDate.ToString("dd/MM/yyyy")</dd>
+            </div>
+            <div class="form-floating mb-3">
+                <dt>
+                    Address
+                </dt>
+                <dd>@Model.Input.Address1</dd>
+                <dd>@Model.Input.Address2</dd>
+            </div>
+            <div class="form-floating mb-3">
+                <dt>
+                    City
+                </dt>
+                <dd>@Model.Input.Email</dd>
+            </div>
+            <div class="form-floating mb-3">
+                <dt>
+                    County
+                </dt>
+                <dd>@Model.Input.County</dd>
+            </div>
+            <div class="form-floating mb-3">
+                <dt>
+                    EIR Code
+                </dt>
+                <dd>@Model.Input.PostalCode</dd>
+            </div>
+            <div class="form-floating mb-3">
+                <dt>
+                    Phone
+                </dt>
+                <dd>@Model.Input.Phone1</dd>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Update Profile</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
