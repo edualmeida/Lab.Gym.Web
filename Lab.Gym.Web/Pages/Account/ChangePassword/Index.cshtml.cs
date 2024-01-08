@@ -4,7 +4,10 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Lab.Gym.Web.Application.Services;
+using Lab.Gym.Web.Pages.Shared.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +20,14 @@ namespace Lab.Gym.Web.Pages.Account.ChangePassword
     public class ChangePasswordModel : PageModel
     {
         private readonly ILogger<ChangePasswordModel> _logger;
+        private readonly IUserAccountService _userAccountService;
 
         public ChangePasswordModel(
-            ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger,
+            IUserAccountService userAccountService)
         {
             _logger = logger;
+            _userAccountService = userAccountService;
         }
 
         /// <summary>
@@ -40,28 +46,26 @@ namespace Lab.Gym.Web.Pages.Account.ChangePassword
 
         public async Task<IActionResult> OnGetAsync()
         {
-            //var user = await _userManager.GetUserAsync(User);
-            //if (user == null)
-            //{
-            //    return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            //}
-
-            //var hasPassword = await _userManager.HasPasswordAsync(user);
-            //if (!hasPassword)
-            //{
-            //    return RedirectToPage("./SetPassword");
-            //}
-
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
+            var claims = ((ClaimsIdentity)User.Identity).Claims;
+            var userId = claims.GetValue("sub", "");
+            
+            await _userAccountService.ChangePassword(userId, new Application.Models.ChangePassword()
+            {
+                NewPassword = Input.NewPassword,
+                OldPassword = Input.OldPassword,
+            });
+            StatusMessage = "Your password has been changed.";
+            SignOut("Cookies");
             //var user = await _userManager.GetUserAsync(User);
             //if (user == null)
             //{
@@ -80,7 +84,7 @@ namespace Lab.Gym.Web.Pages.Account.ChangePassword
 
             //await _signInManager.RefreshSignInAsync(user);
             //_logger.LogInformation("User changed their password successfully.");
-            //StatusMessage = "Your password has been changed.";
+            //
 
             return RedirectToPage();
         }
