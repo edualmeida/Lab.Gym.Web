@@ -80,6 +80,7 @@ public class InputModel
         Input.PostalCode = claims.GetValue("PostalCode", defaultValue);
         Input.Phone1 = claims.GetValue("Phone1", defaultValue);
         Input.Email = claims.GetValue("email", defaultValue);
+        Input.UserId = claims.GetValue("sub", defaultValue);
 
         var birthDateString = claims.GetValue("BirthDate", "");
         if (!string.IsNullOrWhiteSpace(birthDateString))

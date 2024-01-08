@@ -11,6 +11,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using AutoMapper;
+using Lab.Gym.Web.Application.Models;
+using Lab.Gym.Web.Application.Services;
 using Lab.Gym.Web.Pages.Shared.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -24,13 +27,10 @@ using Microsoft.AspNetCore.WebUtilities;
 namespace Lab.Core.IdentityServer.Pages.Manage.Profile
 {
     [Authorize]
-    public class ProfileModel : PageModel
+    public class ProfileModel(
+        IProfileService profileService,
+        IMapper mapper) : PageModel
     {
-
-        public ProfileModel()
-        {
-        }
-
         [TempData]
         public string StatusMessage { get; set; }
         
@@ -42,16 +42,21 @@ namespace Lab.Core.IdentityServer.Pages.Manage.Profile
         public SelectList Roles { get; set; }
         public bool IsEdit { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string returnUrl = null, string userId = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            Input = InputModel.GetFromClaims((ClaimsIdentity)User.Identity);
+            var claims = ((ClaimsIdentity)User.Identity).Claims;
+            var profile = await profileService.GetProfile(claims.GetValue("sub", ""));
+
+            Input = mapper.Map<UserProfile, InputModel>(profile);
+            Input.Email = claims.GetValue("email", "");
+            Input.UserId = claims.GetValue("userId", "");
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            return Redirect("./Profile/Update");
+            return Redirect($"./Profile/Update");
         }
     }
 }

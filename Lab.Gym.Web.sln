@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Gym.Web", "Lab.Gym.Web\Lab.Gym.Web.csproj", "{EEB68AF6-1B65-45A4-91B0-A5A30CB920E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.Gym.Web", "Lab.Gym.Web\Lab.Gym.Web.csproj", "{EEB68AF6-1B65-45A4-91B0-A5A30CB920E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Gym.Web.Application", "Lab.Gym.Web.Application\Lab.Gym.Web.Application.csproj", "{B1678F5D-9C8D-4EAD-A848-D6087DCE5B99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EEB68AF6-1B65-45A4-91B0-A5A30CB920E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEB68AF6-1B65-45A4-91B0-A5A30CB920E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEB68AF6-1B65-45A4-91B0-A5A30CB920E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1678F5D-9C8D-4EAD-A848-D6087DCE5B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1678F5D-9C8D-4EAD-A848-D6087DCE5B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1678F5D-9C8D-4EAD-A848-D6087DCE5B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1678F5D-9C8D-4EAD-A848-D6087DCE5B99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

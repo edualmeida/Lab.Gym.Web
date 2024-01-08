@@ -17,7 +17,7 @@ namespace Lab.Gym.Web.Pages.Shared.Components.RightNavbarUserArea
             var model = new RightNavbarUserAreaViewModel
             {
                 //LoginInformations = await _sessionAppService.GetCurrentLoginInformations(),
-                Username = GetUsername(claimsIdentity?.Claims?.GetValue("email", "-")),
+                Username = GetUsername(claimsIdentity?.Claims?.GetValue("email", "")),
                 IsAuthenticated = User?.Identity?.IsAuthenticated ?? false
             };
 
