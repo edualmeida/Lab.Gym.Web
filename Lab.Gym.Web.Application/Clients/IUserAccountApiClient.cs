@@ -7,6 +7,6 @@ namespace Lab.Gym.Web.Application.Clients
     public interface IUserAccountApiClient
     {
         [Post("/UserAccount/{userId}")]
-        Task ChangePassword(string userId, ChangePassword changePassword);
+        Task<IApiResponse<RequestError>> ChangePassword(string userId, ChangePassword changePassword);
     }
 }

@@ -2,9 +2,15 @@
 using IdentityModel.Client;
 using Lab.Gym.Web.Application.Clients;
 using Lab.Gym.Web.Application.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
+using Polly;
 using Refit;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Lab.Gym.Web.Application.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,30 +19,22 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddAccessTokenManagement(options =>
-{
-    options.Client.Clients.Add("identityApi", new ClientCredentialsTokenRequest
-    {
-        RequestUri = new Uri(new Uri("https://localhost:5001"), new Uri("/connect/token", UriKind.Relative)),
-        ClientId = "identityApi",
-        ClientSecret = "secret"
-    });
-});
-
-builder.Services
-    .AddRefitClient<IProfileApiClient>()
-    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://localhost:5001"))
-    .AddClientAccessTokenHandler("identityApi");
-
-builder.Services.AddScoped<IProfileService, ProfileService>();
-
 builder.Services
     .AddAuthentication(options =>
     {
         options.DefaultScheme = "Cookies";
         options.DefaultChallengeScheme = "oidc";
     })
-    .AddCookie("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.Cookie.Name = "mvccode";
+
+        options.Events.OnSigningOut = async e =>
+        {
+            // revoke refresh token on sign-out
+            await e.HttpContext.RevokeUserRefreshTokenAsync();
+        };
+    })
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new()
@@ -66,12 +64,40 @@ builder.Services
         options.Scope.Add("email");
         options.Scope.Add("api1");
 
+        // keeps id_token smaller
         //options.GetClaimsFromUserInfoEndpoint = true;
+        options.SaveTokens = true;
+
         //options.ClaimActions.MapUniqueJsonKey("address1", "address1");
         //options.ClaimActions.MapUniqueJsonKey("fullname", "fullname");
-
         options.MapInboundClaims = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            NameClaimType = "name",
+            RoleClaimType = "role"
+        };
     });
+
+builder.Services
+    .AddAccessTokenManagement(options =>
+    {
+        options.Client.Clients.Add("identityApi", new ClientCredentialsTokenRequest
+        {
+            RequestUri = new Uri(new Uri("https://localhost:5001"), new Uri("/connect/token", UriKind.Relative)),
+            ClientId = "identityApi",
+            ClientSecret = "secret"
+        });
+    })
+    .ConfigureBackchannelHttpClient()
+    .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
+    {
+        TimeSpan.FromSeconds(1),
+        TimeSpan.FromSeconds(2),
+        TimeSpan.FromSeconds(3)
+    }));
+
+builder.Services.AddServices();
 
 var app = builder.Build();
 

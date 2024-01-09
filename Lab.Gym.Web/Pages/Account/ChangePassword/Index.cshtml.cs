@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Lab.Gym.Web.Application.Exceptions;
 using Lab.Gym.Web.Application.Services;
 using Lab.Gym.Web.Pages.Shared.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -30,17 +31,9 @@ namespace Lab.Gym.Web.Pages.Account.ChangePassword
             _userAccountService = userAccountService;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -58,35 +51,28 @@ namespace Lab.Gym.Web.Pages.Account.ChangePassword
 
             var claims = ((ClaimsIdentity)User.Identity).Claims;
             var userId = claims.GetValue("sub", "");
-            
-            await _userAccountService.ChangePassword(userId, new Application.Models.ChangePassword()
+
+            try
             {
-                NewPassword = Input.NewPassword,
-                OldPassword = Input.OldPassword,
-            });
+                await _userAccountService.ChangePassword(userId, new Application.Models.ChangePassword()
+                {
+                    NewPassword = Input.NewPassword,
+                    OldPassword = Input.OldPassword,
+                });
+            }
+            catch (RequestException error)
+            {
+                StatusMessage = error.Errors.FirstOrDefault().Description;
+                return Page();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
             StatusMessage = "Your password has been changed.";
-            SignOut("Cookies");
-            //var user = await _userManager.GetUserAsync(User);
-            //if (user == null)
-            //{
-            //    return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            //}
 
-            //var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
-            //if (!changePasswordResult.Succeeded)
-            //{
-            //    foreach (var error in changePasswordResult.Errors)
-            //    {
-            //        ModelState.AddModelError(string.Empty, error.Description);
-            //    }
-            //    return Page();
-            //}
-
-            //await _signInManager.RefreshSignInAsync(user);
-            //_logger.LogInformation("User changed their password successfully.");
-            //
-
-            return RedirectToPage();
+            return SignOut("Cookies", "oidc");
         }
     }
 }
