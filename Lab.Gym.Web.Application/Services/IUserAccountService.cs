@@ -4,6 +4,6 @@ namespace Lab.Gym.Web.Application.Services
 {
     public interface IUserAccountService
     {
-        Task ChangePassword(string userId, ChangePassword changePassword);
+        Task<HttpCallResult> ChangePassword(string userId, ChangePassword changePassword);
     }
 }

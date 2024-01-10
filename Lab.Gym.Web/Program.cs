@@ -10,7 +10,7 @@ using Refit;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Lab.Gym.Web.Application.Configuration;
+using Lab.Gym.Web.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,7 +97,7 @@ builder.Services
         TimeSpan.FromSeconds(3)
     }));
 
-builder.Services.AddServices();
+builder.Services.AddServices("https://localhost:5001/");
 
 var app = builder.Build();
 

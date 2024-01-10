@@ -1,27 +1,24 @@
 ﻿using Lab.Gym.Web.Application.Clients;
+using Lab.Gym.Web.Application.Exceptions;
 using Lab.Gym.Web.Application.Models;
+using System.Net.Http;
+using System.Text.Json;
+using Lab.Gym.Web.Application.Extensions;
 
 namespace Lab.Gym.Web.Application.Services
 {
-    public class ProfileService : IProfileService
+    public class ProfileService(HttpClient httpClient) : IProfileService
     {
-        //private readonly IProfileApiClient _profileApiClient;
-
-        public ProfileService() 
-        {
-            //_profileApiClient = profileApiClient;
-        }
-
         public Task UpdateProfile(string userId, UserProfile userProfile)
         {
-            //return _profileApiClient.UpdateProfile(userId, userProfile);
-            return Task.CompletedTask;
+            return httpClient.PostAsync($"UserProfile/{userId}", userProfile);
         }
 
-        public Task<UserProfile> GetProfile(string userId)
+        public async Task<UserProfile> GetProfile(string userId)
         {
-            //return _profileApiClient.GetProfile(userId);
-            return Task.FromResult<UserProfile>(null);
+            var result = await httpClient.GetAsync<UserProfile>($"UserProfile/{userId}");
+
+            return result;
         }
     }
 }

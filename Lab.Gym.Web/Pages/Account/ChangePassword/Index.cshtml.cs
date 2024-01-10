@@ -2,23 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Lab.Gym.Web.Application.Exceptions;
 using Lab.Gym.Web.Application.Services;
-using Lab.Gym.Web.Pages.Shared.Extensions;
+using Lab.Gym.Web.Pages.Shared.Components;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace Lab.Gym.Web.Pages.Account.ChangePassword
 {
     [Authorize]
-    public class ChangePasswordModel : PageModel
+    public class ChangePasswordModel : UserPageModel
     {
         private readonly ILogger<ChangePasswordModel> _logger;
         private readonly IUserAccountService _userAccountService;
@@ -49,30 +41,22 @@ namespace Lab.Gym.Web.Pages.Account.ChangePassword
                 return Page();
             }
 
-            var claims = ((ClaimsIdentity)User.Identity).Claims;
-            var userId = claims.GetValue("sub", "");
+            var callResult = await _userAccountService.ChangePassword(UserId, new Application.Models.ChangePassword()
+            {
+                NewPassword = Input.NewPassword,
+                OldPassword = Input.OldPassword,
+            });
 
-            try
+            if (!callResult.Succeeded)
             {
-                await _userAccountService.ChangePassword(userId, new Application.Models.ChangePassword()
-                {
-                    NewPassword = Input.NewPassword,
-                    OldPassword = Input.OldPassword,
-                });
+                StatusMessage = callResult.ErrorMessage;
             }
-            catch (RequestException error)
+            else
             {
-                StatusMessage = error.Errors.FirstOrDefault().Description;
-                return Page();
-            }
-            catch (Exception)
-            {
-                throw;
+                StatusMessage = "Your password has been changed.";
             }
 
-            StatusMessage = "Your password has been changed.";
-
-            return SignOut("Cookies", "oidc");
+            return Page();
         }
     }
 }

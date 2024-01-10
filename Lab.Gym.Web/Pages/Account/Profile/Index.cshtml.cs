@@ -45,11 +45,17 @@ namespace Lab.Core.IdentityServer.Pages.Manage.Profile
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
             var claims = ((ClaimsIdentity)User.Identity).Claims;
-            var profile = await profileService.GetProfile(claims.GetValue("sub", ""));
+            var userId = claims.GetValue("sub", "");
+            var profile = await profileService.GetProfile(userId);
+
+            if(null == profile)
+            {
+                return NotFound($"Profile not found for {userId}");
+            }
 
             Input = mapper.Map<UserProfile, InputModel>(profile);
             Input.Email = claims.GetValue("email", "");
-            Input.UserId = claims.GetValue("userId", "");
+            Input.UserId = userId;
 
             return Page();
         }
