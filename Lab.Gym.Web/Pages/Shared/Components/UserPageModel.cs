@@ -1,4 +1,6 @@
-﻿using Lab.Gym.Web.Pages.Shared.Extensions;
+﻿using Lab.Gym.Web.Pages.Shared.Configuration;
+using Lab.Gym.Web.Pages.Shared.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 
@@ -7,7 +9,20 @@ namespace Lab.Gym.Web.Pages.Shared.Components
     public class UserPageModel : PageModel
     {
         private ClaimsIdentity identity = null;
-        public string UserId { get { return GetUserId(); } }
+        protected string UserId { get { return GetUserId(); } }
+
+        [TempData]
+        public string StatusMessage { get; set; }
+
+        protected string GetEmailClaim()
+        {
+            return GetClaimValue(AppConstants.EmailClaimType, "");
+        }
+
+        protected string GetClaimValue(string claimType, string defaultValue = "")
+        {
+            return GetClaims().GetValue(claimType, defaultValue);
+        }
 
         private ClaimsIdentity GetClaimsIdentity()
         {

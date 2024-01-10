@@ -3,16 +3,16 @@
     public class HttpCallResult
     {
         public bool Succeeded { get; set; }
-        public string ErrorMessage { get; set; } = "";
+        public IList<RequestErrorDetail> Errors { get; set; } = new List<RequestErrorDetail>();
 
-        public HttpCallResult(string errorMessage)
+        public HttpCallResult(IList<RequestErrorDetail> errors)
         {
             Succeeded = false;
-            ErrorMessage = errorMessage;
+            Errors = errors;
         }
 
         public HttpCallResult(bool succeeded)
-        {  
+        {
             Succeeded = succeeded;
         }
     }

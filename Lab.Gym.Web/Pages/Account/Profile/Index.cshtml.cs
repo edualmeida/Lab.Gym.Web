@@ -14,6 +14,7 @@ using System.Text.Encodings.Web;
 using AutoMapper;
 using Lab.Gym.Web.Application.Models;
 using Lab.Gym.Web.Application.Services;
+using Lab.Gym.Web.Pages.Shared.Components;
 using Lab.Gym.Web.Pages.Shared.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -29,11 +30,8 @@ namespace Lab.Core.IdentityServer.Pages.Manage.Profile
     [Authorize]
     public class ProfileModel(
         IProfileService profileService,
-        IMapper mapper) : PageModel
+        IMapper mapper) : UserPageModel
     {
-        [TempData]
-        public string StatusMessage { get; set; }
-        
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -44,18 +42,16 @@ namespace Lab.Core.IdentityServer.Pages.Manage.Profile
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            var claims = ((ClaimsIdentity)User.Identity).Claims;
-            var userId = claims.GetValue("sub", "");
-            var profile = await profileService.GetProfile(userId);
+            var profile = await profileService.GetProfile(UserId);
 
             if(null == profile)
             {
-                return NotFound($"Profile not found for {userId}");
+                return NotFound($"Profile not found for {UserId}");
             }
 
             Input = mapper.Map<UserProfile, InputModel>(profile);
-            Input.Email = claims.GetValue("email", "");
-            Input.UserId = userId;
+            Input.Email = GetEmailClaim();
+            Input.UserId = UserId;
 
             return Page();
         }

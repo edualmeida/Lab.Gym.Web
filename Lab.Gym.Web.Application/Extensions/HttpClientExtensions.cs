@@ -17,7 +17,7 @@ namespace Lab.Gym.Web.Application.Extensions
             }
             catch (BadRequestException exception)
             {
-                return new HttpCallResult(exception.Errors.FirstOrDefault().Description);
+                return new HttpCallResult(exception.Errors);
             }
             catch (Exception)
             {
@@ -35,7 +35,7 @@ namespace Lab.Gym.Web.Application.Extensions
             }
             catch (BadRequestException exception)
             {
-                return new HttpCallResult(exception.Message);
+                return new HttpCallResult(exception.Errors);
             }
             catch (Exception)
             {

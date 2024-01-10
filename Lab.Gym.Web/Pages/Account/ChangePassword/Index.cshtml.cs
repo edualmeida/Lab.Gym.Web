@@ -4,6 +4,7 @@
 
 using Lab.Gym.Web.Application.Services;
 using Lab.Gym.Web.Pages.Shared.Components;
+using Lab.Gym.Web.Pages.Shared.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,9 +27,6 @@ namespace Lab.Gym.Web.Pages.Account.ChangePassword
         [BindProperty]
         public InputModel Input { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-
         public async Task<IActionResult> OnGetAsync()
         {
             return Page();
@@ -47,14 +45,7 @@ namespace Lab.Gym.Web.Pages.Account.ChangePassword
                 OldPassword = Input.OldPassword,
             });
 
-            if (!callResult.Succeeded)
-            {
-                StatusMessage = callResult.ErrorMessage;
-            }
-            else
-            {
-                StatusMessage = "Your password has been changed.";
-            }
+            StatusMessage = callResult.Succeeded ? "Your password has been changed." : callResult.AggregateErrors();
 
             return Page();
         }
