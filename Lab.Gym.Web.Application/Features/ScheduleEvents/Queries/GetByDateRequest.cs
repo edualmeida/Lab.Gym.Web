@@ -1,9 +1,9 @@
 ﻿using Lab.Gym.Web.Domain.Models;
 using MediatR;
 
-namespace Lab.Gym.Web.Application.Features.Events.Queries
+namespace Lab.Gym.Web.Application.Features.ScheduleEvents.Queries
 {
-    public class GetByDateRequest : IRequest<List<ScheduleEvent>>
+    public class GetByDateRequest : IRequest<List<ScheduleEventModel>>
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

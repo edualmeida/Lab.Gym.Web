@@ -1,6 +1,6 @@
 using AutoMapper;
-using Lab.Gym.Web.Application.Features.Events.Commands;
-using Lab.Gym.Web.Application.Features.Events.Queries;
+using Lab.Gym.Web.Application.Features.ScheduleEvents.Commands;
+using Lab.Gym.Web.Application.Features.ScheduleEvents.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;

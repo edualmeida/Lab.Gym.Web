@@ -2,7 +2,7 @@
 using Lab.Gym.Web.Repository;
 using MediatR;
 
-namespace Lab.Gym.Web.Application.Features.Events.Commands
+namespace Lab.Gym.Web.Application.Features.ScheduleEvents.Commands
 {
     public class DeleteHandler(
         IScheduleEventRepository _eventsRepository,

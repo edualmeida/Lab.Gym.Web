@@ -9,8 +9,13 @@ namespace Lab.Gym.Web.Repository.Configuration
     {
         public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ScheduleContext>(
-                options => options.UseNpgsql(configuration.GetConnectionString("BloggingContext")));
+            services.AddAutoMapper(typeof(IAppModule));
+
+            services.AddDbContext<GymWebDbContext>(
+                options => options.UseNpgsql(configuration.GetConnectionString("GymWebConnectionString")));
+
+            services.AddScoped<IScheduleEventRepository, ScheduleEventRepository>();
+
         }
     }
 }

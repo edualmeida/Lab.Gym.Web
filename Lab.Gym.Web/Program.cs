@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Polly;
 using System.Text;
 using Lab.Gym.Web.Application.Extensions;
+using Lab.Gym.Web.Repository.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddFeatures();
+builder.Services.AddRepositories(builder.Configuration);
 
 builder.Services
     .AddAuthentication(options =>

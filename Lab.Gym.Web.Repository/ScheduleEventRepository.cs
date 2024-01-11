@@ -8,10 +8,10 @@ using System.Linq;
 namespace Lab.Gym.Web.Repository
 {
     public class ScheduleEventRepository(
-        ScheduleContext _context,
+        GymWebDbContext _context,
         IMapper _mapper) : IScheduleEventRepository
     {
-        public async Task CreateAsync(ScheduleEventRepo schedule)
+        public async Task CreateAsync(ScheduleEvent schedule)
         {
             await _context.AddAsync(schedule);
             await _context.SaveChangesAsync();
@@ -25,18 +25,18 @@ namespace Lab.Gym.Web.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(ScheduleEventRepo scheduleEvent)
+        public async Task UpdateAsync(ScheduleEvent scheduleEvent)
         {
-            ScheduleEventRepo? foundEvent = FindEvent(scheduleEvent.Id);
+            ScheduleEvent? foundEvent = FindEvent(scheduleEvent.Id);
 
-            foundEvent = _mapper.Map<ScheduleEventRepo>(scheduleEvent);
+            foundEvent = _mapper.Map<ScheduleEvent>(scheduleEvent);
 
             _context.ScheduleEvents.Update(foundEvent);
 
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<ScheduleEventRepo>> GetByDateRange(DateTime start, DateTime? end)
+        public Task<List<ScheduleEvent>> GetByDateRange(DateTime start, DateTime? end)
         {
             var query =
                 from ev in _context.ScheduleEvents
@@ -46,7 +46,7 @@ namespace Lab.Gym.Web.Repository
             return query.ToListAsync();
         }
 
-        private ScheduleEventRepo FindEvent(Guid eventId)
+        private ScheduleEvent FindEvent(Guid eventId)
         {
             var foundEvent = _context.ScheduleEvents.FirstOrDefault(x => x.Id == eventId);
 
