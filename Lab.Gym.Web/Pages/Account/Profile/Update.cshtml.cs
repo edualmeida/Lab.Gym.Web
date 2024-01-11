@@ -24,7 +24,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Lab.Core.IdentityServer.Pages.Manage.Profile
+namespace Lab.Gym.Web.Pages.Manage.Profile
 {
     [Authorize]
     public class UpdateModel(

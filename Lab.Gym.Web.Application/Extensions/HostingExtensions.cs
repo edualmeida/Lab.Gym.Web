@@ -6,6 +6,11 @@ namespace Lab.Gym.Web.Application.Extensions
 {
     public static class HostingExtensions
     {
+        public static void AddFeatures(this IServiceCollection services)
+        {
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IAppModule).Assembly));
+        }
+
         public static void AddServices(this IServiceCollection services, string baseUrl)
         {
             services.AddScoped<IProfileService, ProfileService>();

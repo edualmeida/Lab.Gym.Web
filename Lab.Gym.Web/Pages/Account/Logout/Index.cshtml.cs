@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Lab.Core.IdentityServer.Pages.Logout;
+namespace Lab.Gym.Web.Pages.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]

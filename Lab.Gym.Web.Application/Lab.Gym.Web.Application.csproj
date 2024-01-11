@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="IdentityModel.AspNetCore" Version="4.3.0" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
@@ -18,6 +20,11 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lab.Gym.Web.Domain\Lab.Gym.Web.Domain.csproj" />
+    <ProjectReference Include="..\Lab.Gym.Web.Repository\Lab.Gym.Web.Repository.csproj" />
   </ItemGroup>
 
 </Project>

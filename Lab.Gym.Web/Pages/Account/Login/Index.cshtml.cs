@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Lab.Core.IdentityServer.Pages.Login;
+namespace Lab.Gym.Web.Pages.Login;
 
 [SecurityHeaders]
 [Authorize]

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Lab.Core.IdentityServer.Pages.Manage.Profile;
+using Lab.Gym.Web.Pages.Manage.Profile;
 using Lab.Gym.Web.Application.Models;
 
 namespace Lab.Gym.Web.Mapping

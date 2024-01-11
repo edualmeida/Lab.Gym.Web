@@ -1,23 +1,17 @@
 
 using IdentityModel.Client;
-using Lab.Gym.Web.Application.Clients;
-using Lab.Gym.Web.Application.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
 using Polly;
-using Refit;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Lab.Gym.Web.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
 
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddFeatures();
 
 builder.Services
     .AddAuthentication(options =>

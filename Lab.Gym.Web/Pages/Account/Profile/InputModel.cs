@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
 using Lab.Gym.Web.Pages.Shared.Extensions;
 
-namespace Lab.Core.IdentityServer.Pages.Manage.Profile;
+namespace Lab.Gym.Web.Pages.Manage.Profile;
 
 public class InputModel
 {
