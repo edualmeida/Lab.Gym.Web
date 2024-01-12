@@ -10,6 +10,7 @@ using Lab.Gym.Web.Repository.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddFeatures();

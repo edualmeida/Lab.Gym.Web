@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'timeGridWeek',        
+        initialView: 'timeGridWeek',
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -13,14 +13,16 @@ document.addEventListener('DOMContentLoaded', function () {
         select: addEvent,
         eventSourceFailure(error) {
             if (error) {
-                alert('Request to failed: ' + error);
+                console.log('Request to failed: ' + error);
             }
         },
         events: {
-            url: '/Home/GetCalendarEvents',
+            url: '/Schedule/Index?handler=CalendarEvents',
             method: 'GET',
-            failure: function () {
-                alert('There was an error while fetching events!');
+            contentType: 'Content-type: application/json',
+            dataType: "json",
+            failure: function (error) {
+                console.log('There was an error while fetching events: ' + error);
             }
         }
     });
@@ -139,7 +141,12 @@ $('#eventModalSave').click(() => {
 function sendAddEvent(event) {
     axios({
         method: 'post',
-        url: '/Home/AddEvent',
+        url: '/Schedule/Index?handler=Event',
+        headers: {
+            'XSRF-TOKEN': $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        contentType: "application/json",
+        dataType: "json",
         data: {
             "Title": event.title,
             "Description": event.description,
@@ -173,7 +180,7 @@ function sendAddEvent(event) {
 function sendUpdateEvent(event) {
     axios({
         method: 'post',
-        url: '/Home/UpdateEvent',
+        url: '/Schedule/Index?handler=UpdateEvent',
         data: {
             "Id": currentEvent.id,
             "Title": event.title,
@@ -183,30 +190,30 @@ function sendUpdateEvent(event) {
             "AllDay": event.isAllDay
         }
     })
-        .then(res => {
-            const { message } = res.data;
+    .then(res => {
+        const { message } = res.data;
 
-            if (message === '') {
-                currentEvent.title = event.title;
-                currentEvent.description = event.description;
-                currentEvent.start = event.startTime;
-                currentEvent.end = event.endTime;
-                currentEvent.allDay = event.isAllDay;
+        if (message === '') {
+            currentEvent.title = event.title;
+            currentEvent.description = event.description;
+            currentEvent.start = event.startTime;
+            currentEvent.end = event.endTime;
+            currentEvent.allDay = event.isAllDay;
 
-                calendar.refetchEvents();
-                $('#eventModal').modal('hide');
-            } else {
-                alert(`Something went wrong: ${message}`);
-            }
-        })
-        .catch(err => alert(`Something went wrong: ${err}`));
+            calendar.refetchEvents();
+            $('#eventModal').modal('hide');
+        } else {
+            alert(`Something went wrong: ${message}`);
+        }
+    })
+    .catch(err => alert(`Something went wrong: ${err}`));
 }
 
 $('#deleteEvent').click(() => {
     if (confirm(`Do you really want to delte "${currentEvent.title}" event?`)) {
         axios({
             method: 'post',
-            url: '/Home/DeleteEvent',
+            url: '/Schedule/Index?handler=DeleteEvent',
             data: {
                 "eventId": currentEvent.id
             }

@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.Gym.Web", "Lab.Gym.Web\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.Gym.Web.Application", "Lab.Gym.Web.Application\Lab.Gym.Web.Application.csproj", "{B1678F5D-9C8D-4EAD-A848-D6087DCE5B99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Gym.Web.Domain", "Lab.Gym.Web.Domain\Lab.Gym.Web.Domain.csproj", "{681E47D7-62A8-4AF9-8D12-7DC73282CBA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.Gym.Web.Domain", "Lab.Gym.Web.Domain\Lab.Gym.Web.Domain.csproj", "{681E47D7-62A8-4AF9-8D12-7DC73282CBA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Gym.Web.Repository", "Lab.Gym.Web.Repository\Lab.Gym.Web.Repository.csproj", "{EB93C629-B0E0-4E80-8E11-9E26A56B5EC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab.Gym.Web.Repository", "Lab.Gym.Web.Repository\Lab.Gym.Web.Repository.csproj", "{EB93C629-B0E0-4E80-8E11-9E26A56B5EC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
