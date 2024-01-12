@@ -8,6 +8,7 @@ using Lab.Gym.Web.Application.Extensions;
 using Lab.Gym.Web.Repository.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddRazorPages();
 builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");

@@ -82,7 +82,6 @@ namespace Lab.Gym.Web.Pages.Schedule
 
         public async Task<JsonResult> OnPostEvent([FromBody] ScheduleEventVm newEvent)
         {
-            newEvent.Id = Guid.NewGuid().ToString();
             string message = String.Empty;
             var createRequest = _mapper.Map<CreateRequest>(newEvent);
 

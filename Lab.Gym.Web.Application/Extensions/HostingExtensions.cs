@@ -8,6 +8,7 @@ namespace Lab.Gym.Web.Application.Extensions
     {
         public static void AddFeatures(this IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(IAppModule));
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IAppModule).Assembly));
         }
 

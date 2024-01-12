@@ -38,14 +38,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 let currentEvent;
-const formatDate = date => date === null ? '' : moment(date).format("MM/DD/YYYY h:mm A");
+const formatDate = date => date === null ? '' : moment(date).format("DD/MM/YYYY h:mm A");
 const fpStartTime = flatpickr("#StartTime", {
     enableTime: true,
-    dateFormat: "m/d/Y h:i K"
+    dateFormat: "d/m/Y h:i K"
 });
 const fpEndTime = flatpickr("#EndTime", {
     enableTime: true,
-    dateFormat: "m/d/Y h:i K"
+    dateFormat: "d/m/Y h:i K"
 });
 
 /**
