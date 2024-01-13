@@ -52,8 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     var events = [];   //javascript event object created here
                     var obj = doc;
                     $(obj).each(function () {
-                        console.log($(this).attr('start'));
-                        console.log(moment($(this).attr('start'), momentFormat));
                         events.push({
                             title: $(this).attr('title'),  //your calevent object has identical parameters 'title', 'start', ect, so this will work
                             start: moment(moment($(this).attr('start'), momentFormat)).toDate(), // will be parsed into DateTime object
@@ -64,8 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         });
                     });
                     if (successCallback) {
-                        console.log('test');
-                        console.log(events);
                         successCallback(events);
                     }
                 }
@@ -99,14 +95,14 @@ const fpEndTime = flatpickr("#EndTime", {
  **/
 
 function updateEvent(item, element) {
-    currentEvent = item.event;
 
+    currentEvent = item.event;
     if ($(this).data("qtip")) $(this).qtip("hide");
 
     $('#eventModalLabel').html('Edit Event');
     $('#eventModalSave').html('Update Event');
     $('#EventTitle').val(currentEvent.title);
-    $('#Description').val(currentEvent.description);
+    $('#Description').val(currentEvent.extendedProps.description);
     $('#isNewEvent').val(false);
 
     const start = formatDate(currentEvent.start);

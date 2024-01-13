@@ -29,9 +29,18 @@ namespace Lab.Gym.Web.Repository
         {
             ScheduleEvent? foundEvent = FindEvent(scheduleEvent.Id);
 
-            foundEvent = _mapper.Map<ScheduleEvent>(scheduleEvent);
+            if(null == foundEvent)
+            {
+                throw new Exception($"ScheduleEvent not found: {scheduleEvent.Id}");
+            }
 
-            _context.ScheduleEvents.Update(foundEvent);
+            foundEvent.Description = scheduleEvent.Description;
+            foundEvent.End = scheduleEvent.End;
+            foundEvent.Start = scheduleEvent.Start;
+            foundEvent.AllDay = scheduleEvent.AllDay;
+            foundEvent.Title = scheduleEvent.Title;
+
+            //_context.ScheduleEvents.Update(foundEvent);
 
             await _context.SaveChangesAsync();
         }
