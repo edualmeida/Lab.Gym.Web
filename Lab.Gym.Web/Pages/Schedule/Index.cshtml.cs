@@ -32,33 +32,7 @@ namespace Lab.Gym.Web.Pages.Schedule
         {
 
         }
-        public JsonResult OnGetList()
-        {
-            List<string> lstString = new List<string>
-            {
-                "Val 1",
-                "Val 2",
-                "Val 3"
-            };
-            return new JsonResult(lstString);
-        }
 
-        public ActionResult OnPostSend()
-        {
-            string sPostValue1 = "";
-            string sPostValue2 = "";
-            string sPostValue3 = "";
-
-            List<string> lstString = new List<string>
-            {
-                sPostValue1,
-                sPostValue2,
-                sPostValue3
-            };
-            return new JsonResult(lstString);
-        }
-
-        //public JsonResult OnGetCalendarEvents(string start, string end)
         public async Task<JsonResult> OnGetCalendarEvents(string start, string end)
         {
             List<ScheduleEventModel> events = await _mediator.Send(new GetByDateRequest()

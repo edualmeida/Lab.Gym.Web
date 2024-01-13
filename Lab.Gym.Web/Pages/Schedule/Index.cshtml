@@ -64,57 +64,9 @@
         </div>
     </div>
 </div>
-
-<br />
-<input type="button" id="btnPost" value="Post Values">
-<br />
 @Html.AntiForgeryToken()
 
 @section Scripts {
-    <script type="text/javascript" language="JavaScript">
-        $(document).ready(function () {
-            $.ajax({
-                type: "GET",
-                url: "/Schedule/Index?handler=List",
-                contentType: "application/json",
-                dataType: "json",
-                success: function (response) {
-                    console.log(response);
-                },
-                failure: function (response) {
-                    alert(response);
-                }
-            });
-            $('#btnPost').on('click', function () {
-                var item1 = $('#txtItem1').val();
-                var item2 = $('#txtItem2').val();
-                var item3 = $('#txtItem3').val();
-                $.ajax({
-                    type: "POST",
-                    url: "/Schedule/Index?handler=Send",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("XSRF-TOKEN",
-                            $('input:hidden[name="__RequestVerificationToken"]').val());
-                    },
-                    data: JSON.stringify({
-                        Item1: item1,
-                        Item2: item2,
-                        Item3: item3
-                    }),
-
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response);
-                    },
-                    failure: function (response) {
-                        alert(response);
-                    }
-                });
-            })
-
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

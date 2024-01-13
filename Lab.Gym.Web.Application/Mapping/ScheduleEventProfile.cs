@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Commands;
+using Lab.Gym.Web.Domain.Models;
 using Lab.Gym.Web.Repository.Models;
 
 namespace Lab.Gym.Web.Application.Mapping
@@ -10,6 +11,7 @@ namespace Lab.Gym.Web.Application.Mapping
         {
             CreateMap<CreateRequest, ScheduleEvent>();
             CreateMap<UpdateRequest, ScheduleEvent>();
+            CreateMap<ScheduleEvent, ScheduleEventModel>();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@page
-@model Lab.Gym.Web.Pages.DemoModel
+@model Lab.Gym.Web.Pages.Schedule.DemoAjaxModel
 @{
 }
 <h2>This is coming from initial load - <span style="color:blueviolet;">@Model.Message</span></h2>
@@ -31,7 +31,7 @@ Value 3:
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
-                url: "/Demo?handler=List",
+                url: "/Schedule/DemoAjax?handler=List",
                 contentType: "application/json",
                 dataType: "json",
                 success: function (response) {
@@ -51,7 +51,7 @@ Value 3:
                 var item3 = $('#txtItem3').val();
                 $.ajax({
                     type: "POST",
-                    url: "/Demo?handler=Send",
+                    url: "/Schedule/DemoAjax?handler=Send",
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("XSRF-TOKEN",
                             $('input:hidden[name="__RequestVerificationToken"]').val());

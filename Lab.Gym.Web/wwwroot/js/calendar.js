@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
+        dayHeaderFormat: function (objectCallback) {
+            return moment(objectCallback.date).format('DD/MM');
+        },
         eventClick: updateEvent,
         selectable: true,
         select: addEvent,
@@ -16,14 +19,60 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('Request to failed: ' + error);
             }
         },
-        events: {
-            url: '/Schedule/Index?handler=CalendarEvents',
-            method: 'GET',
-            contentType: 'Content-type: application/json',
-            dataType: "json",
-            failure: function (error) {
-                console.log('There was an error while fetching events: ' + error);
-            }
+        //events: {
+        //    url: '/Schedule/Index?handler=CalendarEvents',
+        //    method: 'GET',
+        //    contentType: 'Content-type: application/json',
+        //    dataType: "json",
+        //    failure: function (error) {
+        //        console.log('There was an error while fetching events: ' + error);
+        //    },
+        //    success: function (msg) {
+        //        console.log('On get events: ');
+        //        console.log(msg);
+        //    }
+        //}
+        events: function (fetchInfo, successCallback, failureCallback) {
+            console.log(fetchInfo.start);
+            console.log(fetchInfo.end);
+            console.log(successCallback);
+            console.log(failureCallback);
+            var startFormat = moment(fetchInfo.start).format('YYYY-MM-DDTHH:mm:ssZ');
+            var endFormat = moment(fetchInfo.end).format('YYYY-MM-DDTHH:mm:ssZ');
+            $.ajax({
+                type: "GET",    //WebMethods will not allow GET
+                //url: "/Schedule/Index?handler=CalendarEvents?start=" + startFormat + "&end=" + endFormat,
+                url: "/Schedule/Index?handler=CalendarEvents",
+                data: {
+                    start: startFormat,
+                    end: endFormat
+                },
+                //completely take out 'data:' line if you don't want to pass to webmethod - Important to also change webmethod to not accept any parameters
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (doc) {
+                    var events = [];   //javascript event object created here
+                    console.log(doc);
+                    var obj = doc;
+                    $(obj).each(function () {
+                        console.log($(this).attr('start'));
+                        console.log(moment($(this).attr('start'), 'DD/MM/YYYY HH:mm:ss'));
+                        events.push({
+                            title: $(this).attr('title'),  //your calevent object has identical parameters 'title', 'start', ect, so this will work
+                            start: moment(moment($(this).attr('start'), 'DD/MM/YYYY HH:mm:ss')).toDate(), // will be parsed into DateTime object
+                            end: moment(moment($(this).attr('end'), 'DD/MM/YYYY HH:mm:ss')).toDate(),
+                            id: $(this).attr('id'),
+                            description: $(this).attr('description'),
+                            allDay: $(this).attr('allDay')
+                        });
+                    });
+                    if (successCallback) {
+                        console.log('test');
+                        console.log(events);
+                        successCallback(events);
+                    }
+                }
+            });
         }
     });
     calendar.render();

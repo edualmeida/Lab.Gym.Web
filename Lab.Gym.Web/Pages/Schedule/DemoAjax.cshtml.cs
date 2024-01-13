@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 
-namespace Lab.Gym.Web.Pages
+namespace Lab.Gym.Web.Pages.Schedule
 {
-    public class DemoModel : PageModel
+    public class DemoAjaxModel : PageModel
     {
         public string Message { get; set; }
         public List<string> MessageList { get; set; }
