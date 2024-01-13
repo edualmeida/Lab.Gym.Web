@@ -1,4 +1,5 @@
 ﻿var calendar;
+const momentFormat = 'DD/MM/YYYY HH:mm:ss'; //"DD/MM/YYYY h:mm A"
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -33,10 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         //    }
         //}
         events: function (fetchInfo, successCallback, failureCallback) {
-            console.log(fetchInfo.start);
-            console.log(fetchInfo.end);
-            console.log(successCallback);
-            console.log(failureCallback);
+
             var startFormat = moment(fetchInfo.start).format('YYYY-MM-DDTHH:mm:ssZ');
             var endFormat = moment(fetchInfo.end).format('YYYY-MM-DDTHH:mm:ssZ');
             $.ajax({
@@ -52,15 +50,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 dataType: "json",
                 success: function (doc) {
                     var events = [];   //javascript event object created here
-                    console.log(doc);
                     var obj = doc;
                     $(obj).each(function () {
                         console.log($(this).attr('start'));
-                        console.log(moment($(this).attr('start'), 'DD/MM/YYYY HH:mm:ss'));
+                        console.log(moment($(this).attr('start'), momentFormat));
                         events.push({
                             title: $(this).attr('title'),  //your calevent object has identical parameters 'title', 'start', ect, so this will work
-                            start: moment(moment($(this).attr('start'), 'DD/MM/YYYY HH:mm:ss')).toDate(), // will be parsed into DateTime object
-                            end: moment(moment($(this).attr('end'), 'DD/MM/YYYY HH:mm:ss')).toDate(),
+                            start: moment(moment($(this).attr('start'), momentFormat)).toDate(), // will be parsed into DateTime object
+                            end: moment(moment($(this).attr('end'), momentFormat)).toDate(),
                             id: $(this).attr('id'),
                             description: $(this).attr('description'),
                             allDay: $(this).attr('allDay')
@@ -87,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 let currentEvent;
-const formatDate = date => date === null ? '' : moment(date).format("DD/MM/YYYY h:mm A");
+const formatDate = date => date === null ? '' : moment(date).format(momentFormat);
 const fpStartTime = flatpickr("#StartTime", {
     enableTime: true,
     dateFormat: "d/m/Y h:i K"
@@ -152,23 +149,23 @@ $('#eventModalSave').click(() => {
     
     const title = $('#EventTitle').val();
     const description = $('#Description').val();
-    const startTime = moment($('#StartTime').val());
-    const endTime = moment($('#EndTime').val());
+    const startTime = moment($('#StartTime').val(), momentFormat);
+    const endTime = moment($('#EndTime').val(), momentFormat);
     const isAllDay = $('#AllDay').is(":checked");
     const isNewEvent = $('#isNewEvent').val() === 'true' ? true : false;
 
     if (!title) {
-        alert('Please enter a Title');
+        toastr.warning('Please enter a Title');
         return;
     }
 
     if (startTime > endTime) {
 
-        alert('Start Time cannot be greater than End Time');
+        toastr.warning('Start Time cannot be greater than End Time');
         return;
     } else if ((!startTime.isValid() || !endTime.isValid()) && !isAllDay) {
 
-        alert('Please enter both Start Time and End Time');
+        toastr.warning('Please enter both Start Time and End Time');
         return;
     }
 
@@ -230,6 +227,10 @@ function sendUpdateEvent(event) {
     axios({
         method: 'post',
         url: '/Schedule/Index?handler=UpdateEvent',
+        headers: {
+            'XSRF-TOKEN': $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        dataType: "json",
         data: {
             "Id": currentEvent.id,
             "Title": event.title,
