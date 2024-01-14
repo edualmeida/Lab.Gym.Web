@@ -1,8 +1,10 @@
 using AutoMapper;
+using Lab.Gym.Web.Application.Configuration;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Commands;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Queries;
 using Lab.Gym.Web.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,6 +17,8 @@ namespace Lab.Gym.Web.Pages.Schedule
         private readonly ILogger<IndexModel> _logger;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+
+        public bool IsManager { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -30,7 +34,7 @@ namespace Lab.Gym.Web.Pages.Schedule
 
         public void OnGet()
         {
-
+            IsManager = User.IsInRole(AppConstants.ManagerRoleName);
         }
 
         public async Task<JsonResult> OnGetCalendarEvents(string start, string end)
@@ -47,6 +51,8 @@ namespace Lab.Gym.Web.Pages.Schedule
 
         public async Task<JsonResult> OnPostUpdateEvent([FromBody] ScheduleEventVm evt)
         {
+            Authorize();
+
             string message = String.Empty;
 
             await _mediator.Send(_mapper.Map<UpdateRequest>(evt));
@@ -56,6 +62,8 @@ namespace Lab.Gym.Web.Pages.Schedule
 
         public async Task<JsonResult> OnPostEvent([FromBody] ScheduleEventVm newEvent)
         {
+            Authorize();
+
             string message = String.Empty;
             var createRequest = _mapper.Map<CreateRequest>(newEvent);
 
@@ -67,6 +75,8 @@ namespace Lab.Gym.Web.Pages.Schedule
 
         public async Task<JsonResult> OnPostDeleteEvent([FromBody] DeleteEventRequest request)
         {
+            Authorize();
+
             string message = String.Empty;
 
             await _mediator.Send(new DeleteRequest()
@@ -75,6 +85,19 @@ namespace Lab.Gym.Web.Pages.Schedule
             });
 
             return new JsonResult(new { message });
+        }
+
+        private void Authorize()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                throw new Exception("User not authenticated");
+            }
+
+            if (!User.IsInRole(AppConstants.ManagerRoleName))
+            {
+                throw new Exception($"User not in role {AppConstants.ManagerRoleName}");
+            }
         }
     }
 }

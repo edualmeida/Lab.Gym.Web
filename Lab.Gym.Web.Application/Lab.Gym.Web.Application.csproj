@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Lab.Gym.Web.Domain\Lab.Gym.Web.Domain.csproj" />
     <ProjectReference Include="..\Lab.Gym.Web.Repository\Lab.Gym.Web.Repository.csproj" />
   </ItemGroup>

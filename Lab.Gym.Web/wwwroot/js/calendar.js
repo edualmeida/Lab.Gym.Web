@@ -1,6 +1,11 @@
 ﻿var calendar;
 const momentFormat = 'DD/MM/YYYY HH:mm:ss'; //"DD/MM/YYYY h:mm A"
+var isManager = false;
+
 document.addEventListener('DOMContentLoaded', function () {
+
+    isManager = $('.isManager').val() === 'True';
+
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',
@@ -12,9 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
         dayHeaderFormat: function (objectCallback) {
             return moment(objectCallback.date).format('DD/MM');
         },
-        eventClick: updateEvent,
-        selectable: true,
-        select: addEvent,
+        eventClick: (isManager ? updateEvent : null),
+        editable: isManager,
+        selectable: isManager,
+        select: (isManager ? addEvent : null),
         eventSourceFailure(error) {
             if (error) {
                 console.log('Request to failed: ' + error);
@@ -68,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
+    
     calendar.render();
 
     $('.btnCloseEventModal').on('click', () => {
