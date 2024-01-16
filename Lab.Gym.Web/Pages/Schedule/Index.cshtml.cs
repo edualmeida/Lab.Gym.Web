@@ -3,6 +3,7 @@ using Lab.Gym.Web.Application.Configuration;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Commands;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Queries;
 using Lab.Gym.Web.Domain.Models;
+using Lab.Gym.Web.Pages.Shared.Components;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
@@ -12,7 +13,7 @@ using System.Text.Json;
 
 namespace Lab.Gym.Web.Pages.Schedule
 {
-    public class IndexModel : PageModel
+    public class IndexModel : UserPageModel
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IMediator _mediator;
@@ -85,19 +86,6 @@ namespace Lab.Gym.Web.Pages.Schedule
             });
 
             return new JsonResult(new { message });
-        }
-
-        private void Authorize()
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                throw new Exception("User not authenticated");
-            }
-
-            if (!User.IsInRole(AppConstants.ManagerRoleName))
-            {
-                throw new Exception($"User not in role {AppConstants.ManagerRoleName}");
-            }
         }
     }
 }

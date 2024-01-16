@@ -2,6 +2,8 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    var readonlyTag = Model.IsManager ? null : "readonly";
+    var disabledTag = Model.IsManager ? null : "disabled";
 }
 @section Styles {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -28,41 +30,50 @@
                     <div class="form-group row">
                         <label for="" class="col-sm-3 col-form-label">Title</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="EventTitle">
+                            <input type="text" class="form-control" id="EventTitle" readonly="@(readonlyTag)">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-sm-3 col-form-label">Start Time</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="StartTime">
+                            <input type="text" class="form-control" id="StartTime" readonly="@(readonlyTag)">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-sm-3 col-form-label">End Time</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="EndTime">
+                            <input type="text" class="form-control" id="EndTime" readonly="@(readonlyTag)">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-sm-3 col-form-label">Description</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" id="Description" rows="5"></textarea>
+                            <textarea class="form-control" id="Description" rows="5" readonly="@(readonlyTag)"></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-3 offset-sm-9">
-                            <label><input type="checkbox" id="AllDay" /> All Day</label>
+                            <label><input type="checkbox" id="AllDay" disabled="@(disabledTag)" /> All Day</label>
                         </div>
                     </div>
                     <input type="hidden" id="isNewEvent" />
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" id="deleteEvent">Delete</button>
-                <div>
-                    <button type="button" class="btn btn-default btnCloseEventModal" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="eventModalSave">Save Changes</button>
-                </div>
+                @if(Model.IsManager)
+                {
+                    <button type="button" class="btn btn-danger pull-left" id="deleteEvent">Delete</button>
+                    <div>
+                        <button type="button" class="btn btn-primary" id="eventModalSave">Save Changes</button>
+                        <button type="button" class="btn btn-default btnCloseEventModal" data-dismiss="modal">Close</button>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <button type="button" class="btn btn-default btnCloseEventModal" data-dismiss="modal">Close</button>
+                    </div>
+                }
             </div>
         </div>
     </div>

@@ -1,11 +1,27 @@
 ﻿var calendar;
 const momentFormat = 'DD/MM/YYYY HH:mm:ss'; //"DD/MM/YYYY h:mm A"
 var isManager = false;
+let currentEvent;
+const formatDate = date => date === null ? '' : moment(date).format(momentFormat);
+var fpStartTime;
+var fpEndTime;
 
 document.addEventListener('DOMContentLoaded', function () {
 
     isManager = $('.isManager').val() === 'True';
 
+    if (isManager) {
+        fpStartTime = flatpickr("#StartTime", {
+            enableTime: true,
+            dateFormat: "d/m/Y h:i K"
+        });
+
+        fpEndTime = flatpickr("#EndTime", {
+            enableTime: true,
+            dateFormat: "d/m/Y h:i K"
+        });
+    }
+    
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',
@@ -17,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
         dayHeaderFormat: function (objectCallback) {
             return moment(objectCallback.date).format('DD/MM');
         },
-        eventClick: (isManager ? updateEvent : null),
-        editable: isManager,
+        eventClick: updateEvent,
+        editable: false,
         selectable: isManager,
         select: (isManager ? addEvent : null),
         eventSourceFailure(error) {
@@ -86,17 +102,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-let currentEvent;
-const formatDate = date => date === null ? '' : moment(date).format(momentFormat);
-const fpStartTime = flatpickr("#StartTime", {
-    enableTime: true,
-    dateFormat: "d/m/Y h:i K"
-});
-const fpEndTime = flatpickr("#EndTime", {
-    enableTime: true,
-    dateFormat: "d/m/Y h:i K"
-});
-
 /**
  * Calendar Methods
  **/
@@ -106,8 +111,13 @@ function updateEvent(item, element) {
     currentEvent = item.event;
     if ($(this).data("qtip")) $(this).qtip("hide");
 
-    $('#eventModalLabel').html('Edit Event');
-    $('#eventModalSave').html('Update Event');
+    if (isManager) {
+        $('#eventModalLabel').html('Edit event');
+        $('#eventModalSave').html('Save');
+    } else {
+        $('#eventModalLabel').html(currentEvent.title);
+    }
+
     $('#EventTitle').val(currentEvent.title);
     $('#Description').val(currentEvent.extendedProps.description);
     $('#isNewEvent').val(false);
@@ -115,11 +125,15 @@ function updateEvent(item, element) {
     const start = formatDate(currentEvent.start);
     const end = formatDate(currentEvent.end);
 
-    fpStartTime.setDate(start);
-    fpEndTime.setDate(end);
+    if (isManager) {
+        fpStartTime.setDate(start);
+        fpEndTime.setDate(end);
 
-    $('#StartTime').val(start);
-    $('#EndTime').val(end);
+    } else {
+        $('#StartTime').val(start);
+        $('#EndTime').val(end);
+
+    }
 
     if (currentEvent.allDay) {
         $('#AllDay').prop('checked', 'checked');
@@ -134,8 +148,8 @@ function addEvent(event) {
     
     $('#eventForm')[0].reset();
 
-    $('#eventModalLabel').html('Add Event');
-    $('#eventModalSave').html('Create Event');
+    $('#eventModalLabel').html('Add new event');
+    $('#eventModalSave').html('Save');
     $('#isNewEvent').val(true);
 
     fpStartTime.setDate(formatDate(event.start));
@@ -267,6 +281,10 @@ $('#deleteEvent').click(() => {
         axios({
             method: 'post',
             url: '/Schedule/Index?handler=DeleteEvent',
+            headers: {
+                'XSRF-TOKEN': $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            dataType: "json",
             data: {
                 "eventId": currentEvent.id
             }

@@ -1,4 +1,4 @@
-﻿using Lab.Gym.Web.Pages.Shared.Configuration;
+﻿using Lab.Gym.Web.Application.Configuration;
 using Lab.Gym.Web.Pages.Shared.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,6 +22,19 @@ namespace Lab.Gym.Web.Pages.Shared.Components
         protected string GetClaimValue(string claimType, string defaultValue = "")
         {
             return GetClaims().GetValue(claimType, defaultValue);
+        }
+
+        protected void Authorize()
+        {
+            if (!User?.Identity?.IsAuthenticated ?? false)
+            {
+                throw new Exception("User not authenticated");
+            }
+
+            if (!User?.IsInRole(AppConstants.ManagerRoleName) ?? false)
+            {
+                throw new Exception($"User not in role {AppConstants.ManagerRoleName}");
+            }
         }
 
         private ClaimsIdentity GetClaimsIdentity()
