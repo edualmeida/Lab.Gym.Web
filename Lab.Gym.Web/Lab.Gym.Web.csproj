@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\Shared\Configuration\" />
+    <Folder Include="wwwroot\css\life\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
