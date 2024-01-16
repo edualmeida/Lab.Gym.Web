@@ -92,14 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     calendar.render();
-
-    $('.btnCloseEventModal').on('click', () => {
-        $('#eventModal').modal('hide');
-    });
-
-    $('.btnCloseEventModalTop').on('click', () => {
-        $('#eventModal').modal('hide');
-    });
 });
 
 /**
@@ -161,6 +153,21 @@ function addEvent(event) {
 /**
  * Modal
  * */
+$('.btnCloseEventModal').on('click', () => {
+    $('#eventModal').modal('hide');
+});
+
+$('.btnCloseEventModalTop').on('click', () => {
+    $('#eventModal').modal('hide');
+});
+
+//$('.btnModalConfirmDeleteCancel').on('click', () => {
+//    $('#confirmDeleteModal').modal('hide');
+//});
+
+//$('.btnModalCloseConfirmDeleteTop').on('click', () => {
+//    $('#confirmDeleteModal').modal('hide');
+//});
 
 $('#eventModalSave').click(() => {
     
@@ -277,30 +284,35 @@ function sendUpdateEvent(event) {
 }
 
 $('#deleteEvent').click(() => {
-    if (confirm(`Do you really want to delte "${currentEvent.title}" event?`)) {
-        axios({
-            method: 'post',
-            url: '/Schedule/Index?handler=DeleteEvent',
-            headers: {
-                'XSRF-TOKEN': $('input:hidden[name="__RequestVerificationToken"]').val()
-            },
-            dataType: "json",
-            data: {
-                "eventId": currentEvent.id
-            }
-        })
-            .then(res => {
-                const { message } = res.data;
+    console.log($('#EventTitle').val());
+    $('.modalConfirmDeleteEventTitle').text($('#EventTitle').val());
+    $('#confirmDeleteModal').modal('show');
+});
 
-                if (message === '') {
-                    calendar.refetchEvents();
-                    $('#eventModal').modal('hide');
-                } else {
-                    alert(`Something went wrong: ${message}`);
-                }
-            })
-            .catch(err => alert(`Something went wrong: ${err}`));
-    }
+$('#modalConfirmDelete').click(() => {
+
+    axios({
+        method: 'post',
+        url: '/Schedule/Index?handler=DeleteEvent',
+        headers: {
+            'XSRF-TOKEN': $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        dataType: "json",
+        data: {
+            "eventId": currentEvent.id
+        }
+    })
+    .then(res => {
+        const { message } = res.data;
+
+        if (message === '') {
+            calendar.refetchEvents();
+            $('#confirmDeleteModal').modal('hide');
+        } else {
+            toastr.error('Something went wrong: ${message}', 'Error');
+        }
+    })
+    .catch(err => alert('Something went wrong: ${err}'));
 });
 
 $('#AllDay').on('change', function (e) {

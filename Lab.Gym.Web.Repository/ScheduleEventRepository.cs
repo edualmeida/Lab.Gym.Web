@@ -1,15 +1,11 @@
-﻿using AutoMapper;
-using Lab.Gym.Web.Repository.Data.Contexts;
+﻿using Lab.Gym.Web.Repository.Data.Contexts;
 using Lab.Gym.Web.Repository.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Linq;
 
 namespace Lab.Gym.Web.Repository
 {
     public class ScheduleEventRepository(
-        GymWebDbContext _context,
-        IMapper _mapper) : IScheduleEventRepository
+        GymWebDbContext _context) : IScheduleEventRepository
     {
         public async Task CreateAsync(ScheduleEvent schedule)
         {
