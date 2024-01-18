@@ -1240,6 +1240,10 @@ ol {
 /*---------------------
   Breadcrumb Section
 -----------------------*/
+.breadcrumb-section-small {
+	height: 400px;
+	padding-top: 230px;
+}
 
 .breadcrumb-section {
 	height: 500px;
