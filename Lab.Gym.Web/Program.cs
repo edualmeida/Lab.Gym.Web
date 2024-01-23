@@ -25,7 +25,7 @@ builder.Services
     })
     .AddCookie("Cookies", options =>
     {
-        options.Cookie.Name = "mvccode";
+        options.Cookie.Name = "GymWebCookie";
 
         options.Events.OnSigningOut = async e =>
         {
@@ -48,10 +48,9 @@ builder.Services
     })
     .AddOpenIdConnect("oidc", options =>
     {
-        options.Authority = "https://localhost:5001";
-
-        options.ClientId = "mvc";
-        options.ClientSecret = "secret";
+        options.Authority = builder.Configuration["IdentityServer:BaseUrl"];
+        options.ClientId = builder.Configuration["IdentityServer:OpenIdConnect:ClientId"];
+        options.ClientSecret = builder.Configuration["IdentityServer:OpenIdConnect:ClientSecret"];
         options.ResponseType = "code";
 
         options.SaveTokens = true;
@@ -82,9 +81,9 @@ builder.Services
     {
         options.Client.Clients.Add("identityApi", new ClientCredentialsTokenRequest
         {
-            RequestUri = new Uri(new Uri("https://localhost:5001"), new Uri("/connect/token", UriKind.Relative)),
-            ClientId = "identityApi",
-            ClientSecret = "secret"
+            RequestUri = new Uri(new Uri(builder.Configuration["IdentityServer:BaseUrl"]), new Uri("/connect/token", UriKind.Relative)),
+            ClientId = builder.Configuration["IdentityServer:ClientCredentials:ClientId"],
+            ClientSecret = builder.Configuration["IdentityServer:ClientCredentials:ClientSecret"]
         });
     })
     .ConfigureBackchannelHttpClient()
