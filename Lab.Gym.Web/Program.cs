@@ -48,6 +48,7 @@ builder.Services
     })
     .AddOpenIdConnect("oidc", options =>
     {
+        //options.RequireHttpsMetadata = false;
         options.Authority = builder.Configuration["IdentityServer:BaseUrl"];
         options.ClientId = builder.Configuration["IdentityServer:OpenIdConnect:ClientId"];
         options.ClientSecret = builder.Configuration["IdentityServer:OpenIdConnect:ClientSecret"];
@@ -94,7 +95,7 @@ builder.Services
         TimeSpan.FromSeconds(3)
     }));
 
-builder.Services.AddServices("https://localhost:5001/");
+builder.Services.AddServices(builder.Configuration["IdentityServer:BaseUrl"]);
 
 var app = builder.Build();
 
