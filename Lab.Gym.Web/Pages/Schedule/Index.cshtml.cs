@@ -62,8 +62,8 @@ namespace Lab.Gym.Web.Pages.Schedule
         {
             Authorize();
 
-            _logger.LogWarning("Start: " + newEvent.Start);
-
+            _logger.LogWarning("OnPostEvent->Start: '" + newEvent.Start + "'.");
+            
             string message = String.Empty;
             var createRequest = _mapper.Map<CreateRequest>(newEvent);
 

@@ -8,9 +8,9 @@ using System.Globalization;
 
 namespace Lab.Gym.Web.Mapping
 {
-    public class MainProfile: Profile
+    public class ViewApplicationProfile: Profile
     {
-        public MainProfile()
+        public ViewApplicationProfile()
         {
             CreateMap<InputModel, UserProfile>().ReverseMap();
             //.ForMember((d) => d.Email, opts => opts.MapFrom(src => src.Email));
