@@ -6,6 +6,7 @@ using Polly;
 using System.Text;
 using Lab.Gym.Web.Application.Extensions;
 using Lab.Gym.Web.Repository.Configuration;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -52,6 +53,7 @@ builder.Services
         options.Authority = builder.Configuration["IdentityServer:BaseUrl"];
         options.ClientId = builder.Configuration["IdentityServer:OpenIdConnect:ClientId"];
         options.ClientSecret = builder.Configuration["IdentityServer:OpenIdConnect:ClientSecret"];
+        
         options.ResponseType = "code";
 
         options.SaveTokens = true;
@@ -106,6 +108,18 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+var forwardOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    RequireHeaderSymmetry = false
+};
+
+forwardOptions.KnownNetworks.Clear();
+forwardOptions.KnownProxies.Clear();
+
+// ref: https://github.com/aspnet/Docs/issues/2384
+app.UseForwardedHeaders(forwardOptions);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
