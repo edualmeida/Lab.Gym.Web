@@ -18,7 +18,7 @@ namespace Lab.Gym.Web.Mapping
             CreateMap<ScheduleEventModel, ScheduleEventVm>().ReverseMap();
             CreateMap<ScheduleEventVm, CreateRequest>()
                 .ForMember((d) => d.Id, opts => opts.Ignore())
-                .ForMember((d) => d.Start, opts => opts.MapFrom(src => DateTime.ParseExact(src.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture)))
+                .ForMember((d) => d.Start, opts => opts.MapFrom(src => DateTime.ParseExact(string.IsNullOrEmpty(src.Start) ? "22/01/2024 7:30 AM" : src.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture)))
                 ;
 
             CreateMap<ScheduleEventVm, UpdateRequest>()
