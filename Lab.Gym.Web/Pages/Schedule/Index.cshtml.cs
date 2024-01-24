@@ -5,11 +5,8 @@ using Lab.Gym.Web.Application.Features.ScheduleEvents.Queries;
 using Lab.Gym.Web.Domain.Models;
 using Lab.Gym.Web.Pages.Shared.Components;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace Lab.Gym.Web.Pages.Schedule
 {
@@ -64,6 +61,8 @@ namespace Lab.Gym.Web.Pages.Schedule
         public async Task<JsonResult> OnPostEvent([FromBody] ScheduleEventVm newEvent)
         {
             Authorize();
+
+            _logger.LogWarning("Start: " + newEvent.Start);
 
             string message = String.Empty;
             var createRequest = _mapper.Map<CreateRequest>(newEvent);
