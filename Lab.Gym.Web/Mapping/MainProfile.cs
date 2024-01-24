@@ -4,6 +4,7 @@ using Lab.Gym.Web.Application.Models;
 using Lab.Gym.Web.Pages.Schedule;
 using Lab.Gym.Web.Domain.Models;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Commands;
+using System.Globalization;
 
 namespace Lab.Gym.Web.Mapping
 {
@@ -16,7 +17,10 @@ namespace Lab.Gym.Web.Mapping
 
             CreateMap<ScheduleEventModel, ScheduleEventVm>().ReverseMap();
             CreateMap<ScheduleEventVm, CreateRequest>()
-                .ForMember((d) => d.Id, opts => opts.Ignore());
+                .ForMember((d) => d.Id, opts => opts.Ignore())
+                .ForMember((d) => d.Start, opts => opts.MapFrom(src => DateTime.ParseExact(src.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture)))
+                ;
+
             CreateMap<ScheduleEventVm, UpdateRequest>()
                 .ForMember((d) => d.Id, opts => opts.MapFrom(src => new Guid(src.Id)));
             CreateMap<ScheduleEventVm, DeleteRequest>().ForMember((d) => d.Id, opts => opts.MapFrom(src => new Guid(src.Id)));
