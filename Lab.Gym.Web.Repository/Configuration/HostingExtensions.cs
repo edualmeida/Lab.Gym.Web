@@ -9,7 +9,7 @@ namespace Lab.Gym.Web.Repository.Configuration
     {
         public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(typeof(IAppModule));
+            //services.AddAutoMapper(typeof(IAppModule));
 
             services.AddDbContext<GymWebDbContext>(
                 options => options.UseNpgsql(configuration.GetConnectionString("GymWebConnectionString")));
