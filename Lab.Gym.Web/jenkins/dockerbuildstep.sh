@@ -1,1 +1,1 @@
-docker compose -f ./Lab.Gym.Web/docker-compose.yml up -d --build
+docker compose -f docker-compose.yml up -d --build
