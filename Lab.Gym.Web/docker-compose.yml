@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web-gym:
+    container_name: web-gym
+    build: 
+      context: ../
+      dockerfile: /Lab.Gym.Web/Dockerfile
+    ports: 
+      - "5002:8080"
+    networks:
+      - tulip-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  tulip-net:

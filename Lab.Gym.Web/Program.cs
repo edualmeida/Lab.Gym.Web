@@ -30,7 +30,7 @@ builder.Services
 
         options.Events.OnSigningOut = async e =>
         {
-            // revoke refresh token on sign-out
+            // revoke refresh token on sign-out 
             await e.HttpContext.RevokeUserRefreshTokenAsync();
         };
     })
@@ -100,6 +100,8 @@ builder.Services
 builder.Services.AddServices(builder.Configuration["IdentityServer:BaseUrl"]);
 
 var app = builder.Build();
+
+//app.MigrationInitialisation();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
