@@ -3,7 +3,7 @@ services:
   web-gym:
     container_name: web-gym
     build: 
-      context: ../
+      context: .
       dockerfile: /Lab.Gym.Web/Dockerfile
     ports: 
       - "5002:8080"
