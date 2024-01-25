@@ -18,12 +18,23 @@ namespace Lab.Gym.Web.Mapping
             CreateMap<ScheduleEventModel, ScheduleEventVm>().ReverseMap();
             CreateMap<ScheduleEventVm, CreateRequest>()
                 .ForMember((d) => d.Id, opts => opts.Ignore())
-                .ForMember((d) => d.Start, opts => opts.MapFrom(src => DateTime.ParseExact(string.IsNullOrEmpty(src.Start) ? "22/01/2024 7:30 AM" : src.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture)))
+                .ForMember((d) => d.Start, opts => opts.MapFrom<CustomResolver>())
                 ;
 
             CreateMap<ScheduleEventVm, UpdateRequest>()
                 .ForMember((d) => d.Id, opts => opts.MapFrom(src => new Guid(src.Id)));
             CreateMap<ScheduleEventVm, DeleteRequest>().ForMember((d) => d.Id, opts => opts.MapFrom(src => new Guid(src.Id)));
+        }
+    }
+
+    public class CustomResolver : IValueResolver<ScheduleEventVm, CreateRequest, DateTime>
+    {
+        public DateTime Resolve(ScheduleEventVm source, CreateRequest destination, DateTime member, ResolutionContext context)
+        {
+            if(string.IsNullOrEmpty(source.Start))
+                throw new Exception("source.Start IS EMPTY OR NULL");
+
+            return DateTime.ParseExact(source.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
         }
     }
 }
