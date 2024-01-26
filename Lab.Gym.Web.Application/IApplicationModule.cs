@@ -1,7 +1,7 @@
 ﻿
 namespace Lab.Gym.Web.Application
 {
-    internal interface IAppModule
+    public interface IApplicationModule
     {
     }
 }

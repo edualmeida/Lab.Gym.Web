@@ -3,18 +3,21 @@ services:
   web-gym:
     container_name: web-gym
     build: 
-      context: ../
-      dockerfile: Lab.Gym.Web/Dockerfile
+      context: ../../../
+      dockerfile: Lab.Gym.Web/Docker/Local/Dockerfile
     ports: 
       - "5002:8080"
     networks:
-      - tulip-net
+      - pgsqlnet
     deploy:
       restart_policy:
         condition: on-failure
         delay: 5s
         max_attempts: 3
         window: 120s
-
+    environment:
+        ASPNETCORE_ENVIRONMENT: DockerLocal
 networks:
-  tulip-net:
+  pgsqlnet:
+    name: tulip-net
+    external: true

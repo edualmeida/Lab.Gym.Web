@@ -1,7 +1,7 @@
 ﻿
 namespace Lab.Gym.Web.Repository
 {
-    public interface IAppModule
+    public interface IRepositoryModule
     {
     }
 }
