@@ -73,6 +73,7 @@ public static class HostingExtensions
             })
             .AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = bool.Parse(builder.Configuration["RequireHttpsMetadata"]);
                 options.TokenValidationParameters = new()
                 {
                     ValidateIssuer = true,
@@ -86,7 +87,7 @@ public static class HostingExtensions
             })
             .AddOpenIdConnect("oidc", options =>
             {
-                //options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = bool.Parse(builder.Configuration["RequireHttpsMetadata"]);
                 options.Authority = builder.Configuration["IdentityServer:BaseUrl"];
                 options.ClientId = builder.Configuration["IdentityServer:OpenIdConnect:ClientId"];
                 options.ClientSecret = builder.Configuration["IdentityServer:OpenIdConnect:ClientSecret"];
