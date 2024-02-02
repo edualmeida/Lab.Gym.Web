@@ -91,7 +91,6 @@ public static class HostingExtensions
                 options.Authority = builder.Configuration["IdentityServer:BaseUrl"];
                 options.ClientId = builder.Configuration["IdentityServer:OpenIdConnect:ClientId"];
                 options.ClientSecret = builder.Configuration["IdentityServer:OpenIdConnect:ClientSecret"];
-
                 options.ResponseType = "code";
 
                 options.SaveTokens = true;
