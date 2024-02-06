@@ -10,12 +10,12 @@ services:
     networks:
       - pgsqlnet
     restart: unless-stopped 
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
+    # deploy:
+    #   restart_policy:
+    #     condition: on-failure
+    #     delay: 5s
+    #     max_attempts: 3
+    #     window: 120s
     environment:
         ASPNETCORE_ENVIRONMENT: Production
 networks:
