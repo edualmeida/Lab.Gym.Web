@@ -64,7 +64,8 @@ public static class HostingExtensions
             .AddCookie("Cookies", options =>
             {
                 options.Cookie.Name = "GymWebCookie";
-
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Events.OnSigningOut = async e =>
                 {
                     // revoke refresh token on sign-out 
@@ -115,6 +116,12 @@ public static class HostingExtensions
                     RoleClaimType = "role"
                 };
             });
+
+        builder.Services.ConfigureApplicationCookie(options =>
+        {
+            options.Cookie.SameSite = SameSiteMode.None;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        });
 
         builder.Services
             .AddAccessTokenManagement(options =>

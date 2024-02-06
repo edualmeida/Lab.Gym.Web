@@ -7,6 +7,7 @@ using Lab.Gym.Web.Pages.Shared.Components;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace Lab.Gym.Web.Pages.Schedule
 {
@@ -65,7 +66,16 @@ namespace Lab.Gym.Web.Pages.Schedule
             _logger.LogWarning("OnPostEvent->Start: '" + newEvent.Start + "'.");
             
             string message = String.Empty;
-            var createRequest = _mapper.Map<CreateRequest>(newEvent);
+            //var createRequest = _mapper.Map<CreateRequest>(newEvent);
+            var createRequest = new CreateRequest()
+            {
+                AllDay = newEvent.AllDay,
+                Description = newEvent.Description,
+                End = string.IsNullOrEmpty(newEvent.End) ? null : DateTime.ParseExact(newEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture),
+                Id = new Guid(newEvent.Id),
+                Start = DateTime.ParseExact(newEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture),
+                Title = newEvent.Title,
+            };
 
             createRequest.Id = Guid.NewGuid();
             await _mediator.Send(createRequest);
