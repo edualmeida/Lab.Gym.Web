@@ -6,7 +6,6 @@ using Lab.Gym.Web.Domain.Models;
 using Lab.Gym.Web.Pages.Shared.Components;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Globalization;
 
 namespace Lab.Gym.Web.Pages.Schedule
@@ -19,8 +18,6 @@ namespace Lab.Gym.Web.Pages.Schedule
 
         public bool IsManager { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
         public IndexModel(
             ILogger<IndexModel> logger, 
             IMediator mediator,
@@ -48,49 +45,59 @@ namespace Lab.Gym.Web.Pages.Schedule
             return new JsonResult(mappedEvents);
         }
 
-        public async Task<JsonResult> OnPostUpdateEvent([FromBody] ScheduleEventVm evt)
+        public async Task<JsonResult> OnPostUpdateEvent([FromBody] ScheduleEventVm scheduleEvent)
         {
             Authorize();
 
             string message = String.Empty;
 
-            await _mediator.Send(_mapper.Map<UpdateRequest>(evt));
+            await _mediator.Send(_mapper.Map<UpdateRequest>(scheduleEvent));
 
             return new JsonResult(new { message });
         }
 
-        public async Task<JsonResult> OnPostEvent([FromBody] ScheduleEventVm newEvent)
+        public async Task<JsonResult> OnPostEvent([FromBody] ScheduleEventVm scheduleEvent)
         {
             Authorize();
 
-            _logger.LogWarning("OnPostEvent->Start: '" + newEvent.Start + "'.");
-            _logger.LogWarning("OnPostEvent->End: '" + newEvent.End + "'.");
-            _logger.LogWarning("OnPostEvent->Id: '" + newEvent.Id + "'.");
+            _logger.LogWarning("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
+            _logger.LogWarning("OnPostEvent->End: '" + scheduleEvent.End + "'.");
+            _logger.LogWarning("OnPostEvent->Id: '" + scheduleEvent.Id + "'.");
 
             string message = String.Empty;
             //var createRequest = _mapper.Map<CreateRequest>(newEvent);
 
-            if (string.IsNullOrEmpty(newEvent.Start))
+            if (string.IsNullOrEmpty(scheduleEvent.Start))
             {
-                _logger.LogWarning("EMPTY->Start: '" + newEvent.Start + "'.");
+                _logger.LogWarning("EMPTY->Start: '" + scheduleEvent.Start + "'.");
             }
 
-            DateTime start = DateTime.Now; //DateTime.ParseExact(newEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
-            DateTime? end = DateTime.Now;  //string.IsNullOrEmpty(newEvent.End) ? null : DateTime.ParseExact(newEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
-
-            var createRequest = new CreateRequest()
+            string createdId = "";
+            try
             {
-                AllDay = newEvent.AllDay,
-                Description = newEvent.Description,
-                End = end,
-                Start = start,
-                Title = newEvent.Title,
-            };
+                DateTime start = DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+                DateTime? end = string.IsNullOrEmpty(scheduleEvent.End) ? null : DateTime.ParseExact(scheduleEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
 
-            createRequest.Id = Guid.NewGuid();
-            await _mediator.Send(createRequest);
+                var createRequest = new CreateRequest()
+                {
+                    AllDay = scheduleEvent.AllDay,
+                    Description = scheduleEvent.Description,
+                    End = end,
+                    Start = start,
+                    Title = scheduleEvent.Title,
+                    Id = Guid.NewGuid()
+                };
 
-            return new JsonResult(new { message, createRequest.Id });
+                await _mediator.Send(createRequest);
+                createdId = createRequest.Id.ToString();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error when creating schedule event.");
+                throw;
+            }
+
+            return new JsonResult(new { message, createdId });
         }
 
         public async Task<JsonResult> OnPostDeleteEvent([FromBody] DeleteEventRequest request)
