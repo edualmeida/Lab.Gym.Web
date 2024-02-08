@@ -60,9 +60,7 @@ namespace Lab.Gym.Web.Pages.Schedule
         {
             Authorize();
 
-            _logger.LogWarning("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
-            _logger.LogWarning("OnPostEvent->End: '" + scheduleEvent.End + "'.");
-            _logger.LogWarning("OnPostEvent->Id: '" + scheduleEvent.Id + "'.");
+            
 
             string message = String.Empty;
             //var createRequest = _mapper.Map<CreateRequest>(newEvent);
@@ -75,6 +73,10 @@ namespace Lab.Gym.Web.Pages.Schedule
             string createdId = "";
             try
             {
+                _logger.LogWarning("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
+                _logger.LogWarning("OnPostEvent->End: '" + scheduleEvent.End + "'.");
+                _logger.LogWarning("OnPostEvent->Id: '" + scheduleEvent.Id + "'."); 
+
                 DateTime start = DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
                 DateTime? end = string.IsNullOrEmpty(scheduleEvent.End) ? null : DateTime.ParseExact(scheduleEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
 
@@ -93,6 +95,8 @@ namespace Lab.Gym.Web.Pages.Schedule
             }
             catch (Exception ex)
             {
+                _logger.LogWarning("2OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
+                _logger.LogWarning("2OnPostEvent->End: '" + scheduleEvent.End + "'.");
                 _logger.LogError(ex, "Error when creating schedule event.");
                 throw;
             }
