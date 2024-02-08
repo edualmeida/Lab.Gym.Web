@@ -61,35 +61,18 @@ namespace Lab.Gym.Web.Pages.Schedule
             Authorize();
 
             string message = String.Empty;
-            //var createRequest = _mapper.Map<CreateRequest>(newEvent);
-            string createdId = "";
+            string createdId;
+
             try
             {
-                _logger.LogWarning("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
-                _logger.LogWarning("OnPostEvent->End: '" + scheduleEvent.End + "'.");
+                _logger.LogDebug("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
+                _logger.LogDebug("OnPostEvent->End: '" + scheduleEvent.End + "'.");
 
-                var parsedStart = DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy HH:mm", new CultureInfo("en-IE"), DateTimeStyles.None);
-
-                DateTime start = parsedStart; // new DateTime(int.Parse(st.Substring(6,4)), int.Parse(st.Substring(3, 2)), int.Parse(st.Substring(0, 2)));//DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
-                DateTime? end = DateTime.Now.AddMinutes(30);// string.IsNullOrEmpty(scheduleEvent.End) ? null : DateTime.ParseExact(scheduleEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
-                
-                var createRequest = new CreateRequest()
-                {
-                    AllDay = scheduleEvent.AllDay,
-                    Description = scheduleEvent.Description,
-                    End = end,
-                    Start = start,
-                    Title = scheduleEvent.Title,
-                    Id = Guid.NewGuid()
-                };
-
-                await _mediator.Send(createRequest);
-                createdId = createRequest.Id.ToString();
+                await _mediator.Send(_mapper.Map<CreateRequest>(scheduleEvent));
+                createdId = scheduleEvent.Id.ToString();
             }
             catch (Exception ex)
             {
-                _logger.LogWarning("2OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
-                _logger.LogWarning("2OnPostEvent->End: '" + scheduleEvent.End + "'.");
                 _logger.LogError(ex, "Error when creating schedule event.");
                 throw;
             }
