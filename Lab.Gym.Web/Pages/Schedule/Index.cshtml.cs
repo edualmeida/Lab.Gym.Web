@@ -65,6 +65,7 @@ namespace Lab.Gym.Web.Pages.Schedule
 
             _logger.LogWarning("OnPostEvent->Start: '" + newEvent.Start + "'.");
             _logger.LogWarning("OnPostEvent->End: '" + newEvent.End + "'.");
+            _logger.LogWarning("OnPostEvent->Id: '" + newEvent.Id + "'.");
 
             string message = String.Empty;
             //var createRequest = _mapper.Map<CreateRequest>(newEvent);
@@ -82,7 +83,6 @@ namespace Lab.Gym.Web.Pages.Schedule
                 AllDay = newEvent.AllDay,
                 Description = newEvent.Description,
                 End = end,
-                Id = new Guid(newEvent.Id),
                 Start = start,
                 Title = newEvent.Title,
             };
