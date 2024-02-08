@@ -76,11 +76,12 @@ namespace Lab.Gym.Web.Pages.Schedule
                 var st2 = scheduleEvent.Start;
                 _logger.LogWarning("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
                 _logger.LogWarning("3OnPostEvent->Start: '" + st2 + "'.");
+                var en = scheduleEvent.End;
                 _logger.LogWarning("OnPostEvent->End: '" + scheduleEvent.End + "'.");
-                _logger.LogWarning("OnPostEvent->Id: '" + scheduleEvent.Id + "'."); 
+                _logger.LogWarning("OnPostEvent->en: '" + en + "'."); 
 
-                DateTime start = DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
-                DateTime? end = string.IsNullOrEmpty(scheduleEvent.End) ? null : DateTime.ParseExact(scheduleEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+                DateTime start = DateTime.ParseExact(st2, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+                DateTime? end = string.IsNullOrEmpty(en) ? null : DateTime.ParseExact(en, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
 
                 var createRequest = new CreateRequest()
                 {
