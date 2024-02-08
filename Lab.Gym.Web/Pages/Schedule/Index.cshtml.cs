@@ -65,11 +65,12 @@ namespace Lab.Gym.Web.Pages.Schedule
             string createdId = "";
             try
             {
-                string st = scheduleEvent.Start;
-                _logger.LogWarning("OnPostEvent->Start: '" + st + "'.");
+                _logger.LogWarning("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
                 _logger.LogWarning("OnPostEvent->End: '" + scheduleEvent.End + "'.");
 
-                DateTime start = new DateTime(int.Parse(st.Substring(6,4)), int.Parse(st.Substring(3, 2)), int.Parse(st.Substring(0, 2)));//DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+                var parsedStart = DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy HH:mm", new CultureInfo("en-IE"), DateTimeStyles.None);
+
+                DateTime start = parsedStart; // new DateTime(int.Parse(st.Substring(6,4)), int.Parse(st.Substring(3, 2)), int.Parse(st.Substring(0, 2)));//DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
                 DateTime? end = DateTime.Now.AddMinutes(30);// string.IsNullOrEmpty(scheduleEvent.End) ? null : DateTime.ParseExact(scheduleEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
                 
                 var createRequest = new CreateRequest()

@@ -1,5 +1,7 @@
 ﻿var calendar;
 const momentFormat = 'DD/MM/YYYY HH:mm:ss'; //"DD/MM/YYYY h:mm A"
+const datePickerFormat = "d/m/Y H:i";
+const datePickerAriaDateFormat = "d/m/Y H:i";
 var isManager = false;
 let currentEventId;
 var fpStartTime;
@@ -13,12 +15,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (isManager) {
         fpStartTime = flatpickr("#StartTime", {
             enableTime: true,
-            dateFormat: "d/m/Y h:i K"
+            ariaDateFormat: datePickerAriaDateFormat,
+            dateFormat: datePickerFormat
         });
 
         fpEndTime = flatpickr("#EndTime", {
             enableTime: true,
-            dateFormat: "d/m/Y h:i K"
+            ariaDateFormat: datePickerAriaDateFormat,
+            dateFormat: datePickerFormat
         });
     }
 
