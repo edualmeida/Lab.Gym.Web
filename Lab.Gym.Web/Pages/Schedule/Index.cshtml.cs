@@ -60,29 +60,18 @@ namespace Lab.Gym.Web.Pages.Schedule
         {
             Authorize();
 
-            
-
             string message = String.Empty;
             //var createRequest = _mapper.Map<CreateRequest>(newEvent);
-
-            if (string.IsNullOrEmpty(scheduleEvent.Start))
-            {
-                _logger.LogWarning("EMPTY->Start: '" + scheduleEvent.Start + "'.");
-            }
-
             string createdId = "";
             try
             {
-                var st2 = scheduleEvent.Start;
-                _logger.LogWarning("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
-                _logger.LogWarning("3OnPostEvent->Start: '" + st2 + "'.");
-                var en = scheduleEvent.End;
+                string st = scheduleEvent.Start;
+                _logger.LogWarning("OnPostEvent->Start: '" + st + "'.");
                 _logger.LogWarning("OnPostEvent->End: '" + scheduleEvent.End + "'.");
-                _logger.LogWarning("OnPostEvent->en: '" + en + "'."); 
 
-                DateTime start = DateTime.ParseExact(st2, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
-                DateTime? end = string.IsNullOrEmpty(en) ? null : DateTime.ParseExact(en, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
-
+                DateTime start = new DateTime(int.Parse(st.Substring(6,4)), int.Parse(st.Substring(3, 2)), int.Parse(st.Substring(0, 2)));//DateTime.ParseExact(scheduleEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+                DateTime? end = DateTime.Now.AddMinutes(30);// string.IsNullOrEmpty(scheduleEvent.End) ? null : DateTime.ParseExact(scheduleEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+                
                 var createRequest = new CreateRequest()
                 {
                     AllDay = scheduleEvent.AllDay,
