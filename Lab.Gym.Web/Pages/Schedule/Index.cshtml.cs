@@ -64,17 +64,21 @@ namespace Lab.Gym.Web.Pages.Schedule
             Authorize();
 
             _logger.LogWarning("OnPostEvent->Start: '" + newEvent.Start + "'.");
-            _logger.LogWarning("OnPostEvent->End: '" + newEvent.End + "' t.");
+            _logger.LogWarning("OnPostEvent->End: '" + newEvent.End + "'.");
 
             string message = String.Empty;
             //var createRequest = _mapper.Map<CreateRequest>(newEvent);
+
+            DateTime start = DateTime.ParseExact(newEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+            DateTime? end = string.IsNullOrEmpty(newEvent.End) ? null : DateTime.ParseExact(newEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+
             var createRequest = new CreateRequest()
             {
                 AllDay = newEvent.AllDay,
                 Description = newEvent.Description,
-                End = string.IsNullOrEmpty(newEvent.End) ? null : DateTime.ParseExact(newEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture),
+                End = end,
                 Id = new Guid(newEvent.Id),
-                Start = DateTime.ParseExact(newEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture),
+                Start = start,
                 Title = newEvent.Title,
             };
 
