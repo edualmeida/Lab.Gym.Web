@@ -69,8 +69,13 @@ namespace Lab.Gym.Web.Pages.Schedule
             string message = String.Empty;
             //var createRequest = _mapper.Map<CreateRequest>(newEvent);
 
-            DateTime start = DateTime.ParseExact(newEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
-            DateTime? end = string.IsNullOrEmpty(newEvent.End) ? null : DateTime.ParseExact(newEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+            if (string.IsNullOrEmpty(newEvent.Start))
+            {
+                _logger.LogWarning("EMPTY->Start: '" + newEvent.Start + "'.");
+            }
+
+            DateTime start = DateTime.Now; //DateTime.ParseExact(newEvent.Start, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
+            DateTime? end = DateTime.Now;  //string.IsNullOrEmpty(newEvent.End) ? null : DateTime.ParseExact(newEvent.End, "dd/MM/yyyy h:mm t", CultureInfo.InvariantCulture);
 
             var createRequest = new CreateRequest()
             {
