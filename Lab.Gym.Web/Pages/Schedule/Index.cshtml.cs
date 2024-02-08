@@ -73,7 +73,9 @@ namespace Lab.Gym.Web.Pages.Schedule
             string createdId = "";
             try
             {
+                var st2 = scheduleEvent.Start;
                 _logger.LogWarning("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
+                _logger.LogWarning("3OnPostEvent->Start: '" + st2 + "'.");
                 _logger.LogWarning("OnPostEvent->End: '" + scheduleEvent.End + "'.");
                 _logger.LogWarning("OnPostEvent->Id: '" + scheduleEvent.Id + "'."); 
 
