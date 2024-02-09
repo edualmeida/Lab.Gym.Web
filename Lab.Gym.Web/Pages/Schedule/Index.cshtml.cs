@@ -15,6 +15,7 @@ namespace Lab.Gym.Web.Pages.Schedule
         private readonly ILogger<IndexModel> _logger;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly string _getEventsDateFormat = "YYYY-MM-DDTHH:mm:ssZ";
 
         public bool IsManager { get; set; }
 
@@ -37,8 +38,8 @@ namespace Lab.Gym.Web.Pages.Schedule
         {
             List<ScheduleEventModel> events = await _mediator.Send(new GetByDateRequest()
             {
-                Start = DateTime.SpecifyKind(DateTime.Parse(start), DateTimeKind.Utc),
-                End = DateTime.SpecifyKind(DateTime.Parse(end), DateTimeKind.Utc),
+                Start = DateTime.ParseExact(start, _getEventsDateFormat, new CultureInfo("en-IE")),
+                End = DateTime.ParseExact(end, _getEventsDateFormat, new CultureInfo("en-IE")),
             });
 
             var mappedEvents = _mapper.Map<List<ScheduleEventVm>>(events);

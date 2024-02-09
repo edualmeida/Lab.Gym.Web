@@ -11,7 +11,6 @@ const formatDate = date => date === null ? '' : moment(date).format(momentFormat
 document.addEventListener('DOMContentLoaded', function () {
 
     isManager = $('.isManager').val() === 'True';
-
     if (isManager) {
         fpStartTime = flatpickr("#StartTime", {
             enableTime: true,

@@ -1,7 +1,14 @@
-﻿
+﻿const getEventsDateFormat = "YYYY-MM-DDTHH:mm:ssZ";
 function getCalendarEvents(fetchInfo, successCallback, failureCallback) {
-    var startFormat = moment(fetchInfo.start).format('YYYY-MM-DDTHH:mm:ssZ');
-    var endFormat = moment(fetchInfo.end).format('YYYY-MM-DDTHH:mm:ssZ');
+
+    console.log('getCalendarEvents.start: ' + fetchInfo.start);
+    console.log('getCalendarEvents.end: ' + fetchInfo.end);
+
+    var startFormat = moment(fetchInfo.start).format(getEventsDateFormat);
+    var endFormat = moment(fetchInfo.end).format(getEventsDateFormat);
+
+    console.log('getCalendarEvents.startFormat: ' + startFormat);
+    console.log('getCalendarEvents.endFormat: ' + endFormat);
     $.ajax({
         type: "GET",    //WebMethods will not allow GET
         //url: "/Schedule/Index?handler=CalendarEvents?start=" + startFormat + "&end=" + endFormat,
