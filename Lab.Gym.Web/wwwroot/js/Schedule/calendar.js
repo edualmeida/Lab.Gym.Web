@@ -1,5 +1,5 @@
 ﻿var calendar;
-const momentFormat = 'DD/MM/YYYY HH:mm:ss'; //"DD/MM/YYYY h:mm A"
+const momentFormat = 'DD/MM/YYYY HH:mm'; //"DD/MM/YYYY h:mm A"
 const datePickerFormat = "d/m/Y H:i";
 const datePickerAriaDateFormat = "d/m/Y H:i";
 var isManager = false;

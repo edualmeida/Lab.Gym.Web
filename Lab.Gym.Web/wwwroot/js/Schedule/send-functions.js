@@ -1,4 +1,4 @@
-﻿const getEventsDateFormat = "YYYY-MM-DDTHH:mm:ssZ";
+﻿const getEventsDateFormat = "YYYY-MM-DDTHH:mmZ";
 function getCalendarEvents(fetchInfo, successCallback, failureCallback) {
 
     console.log('getCalendarEvents.start: ' + fetchInfo.start);

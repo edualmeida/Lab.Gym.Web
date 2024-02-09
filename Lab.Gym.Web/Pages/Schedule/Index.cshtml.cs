@@ -4,6 +4,7 @@ using Lab.Gym.Web.Application.Features.ScheduleEvents.Commands;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Queries;
 using Lab.Gym.Web.Domain.Models;
 using Lab.Gym.Web.Pages.Shared.Components;
+using Lab.Gym.Web.Repository.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
@@ -15,7 +16,7 @@ namespace Lab.Gym.Web.Pages.Schedule
         private readonly ILogger<IndexModel> _logger;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly string _getEventsDateFormat = "YYYY-MM-DDTHH:mm:ssZ";
+        private readonly string _getEventsDateFormat = "yyyy-MM-ddTHH:mmzzz";
 
         public bool IsManager { get; set; }
 
@@ -36,6 +37,8 @@ namespace Lab.Gym.Web.Pages.Schedule
 
         public async Task<JsonResult> OnGetCalendarEvents(string start, string end)
         {
+            _logger.LogDebug("OnGetCalendarEvents->start: '" + start);
+            _logger.LogDebug("OnGetCalendarEvents->end: '" + end);
             List<ScheduleEventModel> events = await _mediator.Send(new GetByDateRequest()
             {
                 Start = DateTime.ParseExact(start, _getEventsDateFormat, new CultureInfo("en-IE")),
@@ -66,8 +69,8 @@ namespace Lab.Gym.Web.Pages.Schedule
 
             try
             {
-                _logger.LogDebug("OnPostEvent->Start: '" + scheduleEvent.Start + "'.");
-                _logger.LogDebug("OnPostEvent->End: '" + scheduleEvent.End + "'.");
+                _logger.LogDebug("OnPostEvent->Start: '" + scheduleEvent.Start);
+                _logger.LogDebug("OnPostEvent->End: '" + scheduleEvent.End);
 
                 await _mediator.Send(_mapper.Map<CreateRequest>(scheduleEvent));
                 createdId = scheduleEvent.Id.ToString();
