@@ -1,11 +1,10 @@
-﻿const getEventsDateFormat = "YYYY-MM-DDTHH:mmZ";
-function getCalendarEvents(fetchInfo, successCallback, failureCallback) {
+﻿function getCalendarEvents(fetchInfo, successCallback, failureCallback) {
 
     console.log('getCalendarEvents.start: ' + fetchInfo.start);
     console.log('getCalendarEvents.end: ' + fetchInfo.end);
 
-    var startFormat = moment(fetchInfo.start).format(getEventsDateFormat);
-    var endFormat = moment(fetchInfo.end).format(getEventsDateFormat);
+    var startFormat = moment(fetchInfo.start).format(_sourceDateFormat);
+    var endFormat = moment(fetchInfo.end).format(_sourceDateFormat);
 
     console.log('getCalendarEvents.startFormat: ' + startFormat);
     console.log('getCalendarEvents.endFormat: ' + endFormat);
@@ -26,8 +25,8 @@ function getCalendarEvents(fetchInfo, successCallback, failureCallback) {
             $(obj).each(function () {
                 events.push({
                     title: $(this).attr('title'),  //your calevent object has identical parameters 'title', 'start', ect, so this will work
-                    start: moment(moment($(this).attr('start'), momentFormat)).toDate(), // will be parsed into DateTime object
-                    end: moment(moment($(this).attr('end'), momentFormat)).toDate(),
+                    start: moment($(this).attr('start'), _sourceDateFormat).toDate(), // will be parsed into DateTime object
+                    end: moment($(this).attr('end'), _sourceDateFormat).toDate(),
                     id: $(this).attr('id'),
                     description: $(this).attr('description'),
                     allDay: $(this).attr('allDay')

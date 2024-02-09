@@ -1,12 +1,12 @@
 ﻿var calendar;
-const momentFormat = 'DD/MM/YYYY HH:mm'; //"DD/MM/YYYY h:mm A"
+const _sourceDateFormat = "YYYY-MM-DDTHH:mmZ";
 const datePickerFormat = "d/m/Y H:i";
 const datePickerAriaDateFormat = "d/m/Y H:i";
 var isManager = false;
 let currentEventId;
 var fpStartTime;
 var fpEndTime;
-const formatDate = date => date === null ? '' : moment(date).format(momentFormat);
+const formatDate = date => date === null ? '' : moment(date).format(_sourceDateFormat);
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -77,7 +77,6 @@ function onCalendarUpdateEventClick(item, element) {
     } else {
         $('#StartTime').val(start);
         $('#EndTime').val(end);
-
     }
 
     if (currentEvent.allDay) {

@@ -2,9 +2,9 @@ using AutoMapper;
 using Lab.Gym.Web.Application.Configuration;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Commands;
 using Lab.Gym.Web.Application.Features.ScheduleEvents.Queries;
+using Lab.Gym.Web.Constants;
 using Lab.Gym.Web.Domain.Models;
 using Lab.Gym.Web.Pages.Shared.Components;
-using Lab.Gym.Web.Repository.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
@@ -16,7 +16,6 @@ namespace Lab.Gym.Web.Pages.Schedule
         private readonly ILogger<IndexModel> _logger;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly string _getEventsDateFormat = "yyyy-MM-ddTHH:mmzzz";
 
         public bool IsManager { get; set; }
 
@@ -41,8 +40,8 @@ namespace Lab.Gym.Web.Pages.Schedule
             _logger.LogDebug("OnGetCalendarEvents->end: '" + end);
             List<ScheduleEventModel> events = await _mediator.Send(new GetByDateRequest()
             {
-                Start = DateTime.ParseExact(start, _getEventsDateFormat, new CultureInfo("en-IE")),
-                End = DateTime.ParseExact(end, _getEventsDateFormat, new CultureInfo("en-IE")),
+                Start = DateTime.ParseExact(start, FormatConstants.SourceDateFormat, new CultureInfo("en-IE")),
+                End = DateTime.ParseExact(end, FormatConstants.SourceDateFormat, new CultureInfo("en-IE")),
             });
 
             var mappedEvents = _mapper.Map<List<ScheduleEventVm>>(events);
@@ -66,7 +65,6 @@ namespace Lab.Gym.Web.Pages.Schedule
 
             string message = String.Empty;
             string createdId;
-
             try
             {
                 _logger.LogDebug("OnPostEvent->Start: '" + scheduleEvent.Start);
