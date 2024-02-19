@@ -56,26 +56,16 @@ function sendAddEvent(event) {
             "AllDay": event.isAllDay
         }
     })
-        .then(res => {
-            const { message, Id } = res.data;
-
-            if (message === '') {
-                const newEvent = {
-                    start: event.startTime,
-                    end: event.endTime,
-                    allDay: event.isAllDay,
-                    title: event.title,
-                    description: event.description,
-                    Id: event.Id
-                };
-
-                calendar.refetchEvents();
-                $('#eventModal').modal('hide');
-            } else {
-                alert(`Something went wrong: ${message}`);
-            }
-        })
-        .catch(err => alert(`Something went wrong: ${err}`));
+    .then(res => {
+        const { message, Id } = res.data;
+        if (message === '') {
+            calendar.refetchEvents();
+            $('#eventModal').modal('hide');
+        } else {
+            alert(`Something went wrong: ${message}`);
+        }
+    })
+    .catch(err => alert(`Something went wrong: ${err}`));
 }
 
 function sendUpdateEvent(eventId, event) {
@@ -97,7 +87,6 @@ function sendUpdateEvent(eventId, event) {
     })
         .then(res => {
             const { message } = res.data;
-
             if (message === '') {
 
                 calendar.refetchEvents();
@@ -123,7 +112,6 @@ function sendDeleteEvent(eventId) {
     })
         .then(res => {
             const { message } = res.data;
-
             if (message === '') {
 
                 calendar.refetchEvents();

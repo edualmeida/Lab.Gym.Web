@@ -1,12 +1,12 @@
 ﻿var calendar;
 const _sourceDateFormat = "YYYY-MM-DDTHH:mmZ";
 const datePickerFormat = "d/m/Y H:i";
-const datePickerAriaDateFormat = "d/m/Y H:i";
+const calendarDateFormat = 'DD/MM/YYYY HH:mm';
 var isManager = false;
 let currentEventId;
 var fpStartTime;
 var fpEndTime;
-const formatDate = date => date === null ? '' : moment(date).format(_sourceDateFormat);
+const formatDateFromCalendar = date => date === null ? '' : moment(date).format(calendarDateFormat);
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -14,18 +14,19 @@ document.addEventListener('DOMContentLoaded', function () {
     if (isManager) {
         fpStartTime = flatpickr("#StartTime", {
             enableTime: true,
-            ariaDateFormat: datePickerAriaDateFormat,
+            ariaDateFormat: datePickerFormat,
             dateFormat: datePickerFormat
         });
 
         fpEndTime = flatpickr("#EndTime", {
             enableTime: true,
-            ariaDateFormat: datePickerAriaDateFormat,
+            ariaDateFormat: datePickerFormat,
             dateFormat: datePickerFormat
         });
     }
 
     calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+        timeZone: 'UTC',
         initialView: 'timeGridWeek',
         headerToolbar: {
             left: 'prev,next today',
@@ -50,6 +51,22 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 });
 
+function onCalendarAddNewEvent(event) {
+
+    $('#eventForm')[0].reset();
+    $('#eventModalLabel').html('Add new event');
+    $('#eventModalSave').html('Save');
+    $('#isNewEvent').val(true);
+
+    console.log('onCalendarAddNewEvent:');
+    console.log(event.start);
+
+    fpStartTime.setDate(formatDateFromCalendar(event.start));
+    fpEndTime.setDate(formatDateFromCalendar(event.end));
+
+    $('#eventModal').modal('show');
+}
+
 function onCalendarUpdateEventClick(item, element) {
 
     const currentEvent = item.event;
@@ -67,8 +84,8 @@ function onCalendarUpdateEventClick(item, element) {
     $('#Description').val(currentEvent.extendedProps.description);
     $('#isNewEvent').val(false);
 
-    const start = formatDate(currentEvent.start);
-    const end = formatDate(currentEvent.end);
+    const start = formatDateFromCalendar(currentEvent.start);
+    const end = formatDateFromCalendar(currentEvent.end);
 
     if (isManager) {
         fpStartTime.setDate(start);
@@ -88,26 +105,14 @@ function onCalendarUpdateEventClick(item, element) {
     $('#eventModal').modal('show');
 }
 
-function onCalendarAddNewEvent(event) {
-    
-    $('#eventForm')[0].reset();
-    $('#eventModalLabel').html('Add new event');
-    $('#eventModalSave').html('Save');
-    $('#isNewEvent').val(true);
-
-    fpStartTime.setDate(formatDate(event.start));
-    fpEndTime.setDate(formatDate(event.end));
-
-    $('#eventModal').modal('show');
-}
-
-
 $('#eventModalSave').click(() => {
-    
+
+    console.log($('#StartTime').val());
+
     const title = $('#EventTitle').val();
     const description = $('#Description').val();
-    const startTime = moment($('#StartTime').val(), momentFormat);
-    const endTime = moment($('#EndTime').val(), momentFormat);
+    const startTime = moment($('#StartTime').val(), calendarDateFormat);
+    const endTime = moment($('#EndTime').val(), calendarDateFormat);
     const isAllDay = $('#AllDay').is(":checked");
     const isNewEvent = $('#isNewEvent').val() === 'true' ? true : false;
 
@@ -126,12 +131,15 @@ $('#eventModalSave').click(() => {
         return;
     }
 
+    console.log('eventModalSave->');
+    console.log(startTime);
+    console.log('eventModalSave->' + endTime);
     const event = {
         title,
         description,
         isAllDay,
-        startTime: startTime._i,
-        endTime: endTime._i
+        startTime: startTime.format(_sourceDateFormat),
+        endTime: endTime.format(_sourceDateFormat)
     };
 
     if (isNewEvent) {
