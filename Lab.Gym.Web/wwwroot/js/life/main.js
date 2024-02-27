@@ -65,18 +65,18 @@
     });
 
     /*------------------
-        Carousel Slider
+        Hero Slider
     --------------------*/
-    var hero_s = $(".hs-slider");
+    var hero_s = $(".hero__sliders");
     hero_s.owlCarousel({
-        loop: true,
+        loop: false,
         margin: 0,
-        nav: true,
         items: 1,
         dots: false,
+        nav: true,
+        navText: ["<span class='arrow_left'><span/>", "<span class='arrow_right'><span/>"],
         animateOut: 'fadeOut',
         animateIn: 'fadeIn',
-        navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
         smartSpeed: 1200,
         autoHeight: false,
         autoplay: false

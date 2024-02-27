@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="~/css/life/style.css" type="text/css">
 
     @await RenderSectionAsync("Styles", required: false)
+    <style>
+        
+
+    </style>
 </head>
 <body>
     <!-- Page Preloder -->
@@ -29,98 +33,113 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Offcanvas Menu Section Begin -->
+    <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="canvas-close">
-            <i class="fa fa-close"></i>
+    <div class="offcanvas-menu">
+        <div class="offcanvas__logo">
+            <a href="./index.html"><img src="img/logo.png" alt=""></a>
         </div>
-        <div class="canvas-search search-switch">
-            <i class="fa fa-search"></i>
-        </div>
-        <nav class="canvas-menu mobile-menu">
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__widget">
             <ul>
-                <li><a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a></li>
-                <li><a class="nav-link text-dark" asp-area="" asp-page="/Schedule/Index">Schedule</a></li>
-                <li><a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a></li>
-                <li><a class="nav-link text-dark" asp-area="" asp-page="/Privacy">About</a></li>
+                <li>CALL US: + 1 800-567-8990</li>
+                <li>WRITE US: OFFICE@EXAMPLE.COM</li>
+                <li>OPENING TIMES: MON - FRI: 9:00 - 19:00</li>
+            </ul>
+            <a href="#" class="primary-btn">JOIN US</a>
+        </div>
+        <nav class="header__menu">
+            <ul class="mobile-menu">
+                <li class="active"><a href="./index.html">Home</a></li>
+                <li><a href="./about-us.html">About</a></li>
+                <li><a href="./classes.html">Classes</a></li>
                 <li>
                     <a href="#">Pages</a>
                     <ul class="dropdown">
-                        <li><a href="./about-us.html">About us</a></li>
-                        <li><a href="./class-timetable.html">Classes timetable</a></li>
-                        <li><a href="./bmi-calculator.html">Bmi calculate</a></li>
-                        <li><a href="./team.html">Our team</a></li>
-                        <li><a href="./gallery.html">Gallery</a></li>
-                        <li><a href="./blog.html">Our blog</a></li>
-                        <li><a href="./404.html">404</a></li>
+                        <li><a href="./classes-details.html">Classes Details</a></li>
+                        <li><a href="./blog-details.html">Blog Details</a></li>
+                        <li><a href="./pricing.html">Pricing</a></li>
+                        <li><a href="./faq.html">Faq</a></li>
                     </ul>
                 </li>
+                <li><a href="./blog.html">Blog</a></li>
                 <li><a href="./contact.html">Contact</a></li>
             </ul>
         </nav>
-        <div id="mobile-menu-wrap"></div>
-        <div class="canvas-social">
+        <div class="offcanvas__social">
             <a href="#"><i class="fa fa-facebook"></i></a>
             <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-youtube-play"></i></a>
             <a href="#"><i class="fa fa-instagram"></i></a>
+            <a href="#"><i class="fa fa-linkedin"></i></a>
         </div>
     </div>
-    <!-- Offcanvas Menu Section End -->
+    <!-- Offcanvas Menu End -->
+
     <!-- Header Section Begin -->
-    <header class="header-section">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="logo">
-                        <a href="./index.html">
-                            <img src="~/img/logo.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <nav class="nav-menu">
-                        <ul>
-                            <li class="active"><a class="" asp-area="" asp-page="/Index">Home</a></li>
-                            <li><a class="" asp-area="" asp-page="/AboutUs/Index">About Us</a></li>
-                            <li><a class="" asp-area="" asp-page="/Schedule/Index">Schedule</a></li>
-                            <li><a class="" asp-area="" asp-page="/Classes/Index">Classes</a></li>
-                            <li><a class="" asp-area="" asp-page="/Services/Index">Services</a></li>
-                            <li><a class="" asp-area="" asp-page="/Team/Index">Our Team</a></li>
-                            <li>
-                                <a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./class-timetable.html">Classes timetable</a></li>
-                                    <li><a asp-area="" asp-page="/BmiCalculator/Index">Bmi calculate</a></li>
-                                    <li><a asp-area="" asp-page="/Gallery/Index">Gallery</a></li>
-                                    <li><a asp-area="" asp-page="/Blog/Index">Our blog</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="" asp-area="" asp-page="/Contact/Index">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="top-option">
-                        <div class="to-search">
-                            @await Html.PartialAsync("_Header.RightNavbar.cshtml")
-                        </div>
-                        <div class="to-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header__logo">
+                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
                         </div>
                     </div>
+                    <div class="col-lg-9 col-md-9">
+                        <div class="header__top__widget">
+                            <ul>
+                                <li>CALL US: + 1 800-567-8990</li>
+                                <li>WRITE US: OFFICE@EXAMPLE.COM</li>
+                                <li>OPENING TIMES: MON - FRI: 9:00 - 19:00</li>
+                            </ul>
+                            <a href="#" class="primary-btn">JOIN US</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="canvas__open">
+                    <i class="fa fa-bars"></i>
                 </div>
             </div>
-            <div class="canvas-open">
-                <i class="fa fa-bars"></i>
+        </div>
+        <div class="header__nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9">
+                        <nav class="header__menu">
+                            <ul>
+                                <li class="active"><a class="" asp-area="" asp-page="/Index">Home</a></li>
+                                <li><a class="" asp-area="" asp-page="/AboutUs/Index">About Us</a></li>
+                                <li><a class="" asp-area="" asp-page="/Schedule/Index">Schedule</a></li>
+                                <li><a class="" asp-area="" asp-page="/Classes/Index">Classes</a></li>
+                                <li><a class="" asp-area="" asp-page="/Services/Index">Services</a></li>
+                                <li><a class="" asp-area="" asp-page="/Team/Index">Our Team</a></li>
+                                <li>
+                                    <a href="#">Pages</a>
+                                    <ul class="dropdown">
+                                        <li><a href="./class-timetable.html">Classes timetable</a></li>
+                                        <li><a asp-area="" asp-page="/BmiCalculator/Index">Bmi calculate</a></li>
+                                        <li><a asp-area="" asp-page="/Gallery/Index">Gallery</a></li>
+                                        <li><a asp-area="" asp-page="/Blog/Index">Our blog</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="" asp-area="" asp-page="/Contact/Index">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header__social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
-    
+    <!-- Header Section End -->
+
     @RenderBody()
 
     <!-- Get In Touch Section Begin -->
