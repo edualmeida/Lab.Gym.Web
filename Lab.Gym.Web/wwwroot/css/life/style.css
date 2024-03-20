@@ -169,7 +169,7 @@ ol {
 	font-size: 14px;
 	padding: 17px 30px 16px;
 	color: #ffffff;
-	background: #f36100;
+	background: #8DC63F;
 	line-height: normal;
 	letter-spacing: 1px;
 	text-transform: uppercase;
@@ -325,6 +325,7 @@ ol {
 
 .header__logo {
 	padding: 25px 0 25px;
+	width: 70%;
 }
 
 .header__top__widget {
@@ -700,7 +701,7 @@ ol {
 -----------------------*/
 
 .choseus-section {
-	background: #0a0a0a;
+	background: #01014B;
 	padding-bottom: 70px;
 }
 
@@ -710,7 +711,7 @@ ol {
 }
 
 .cs-item:hover span {
-	background: #f36100;
+	background: #8DC63F;
 	color: #ffffff;
 }
 
@@ -720,7 +721,7 @@ ol {
 	background: rgba(255, 255, 255, 0.1);
 	border-radius: 50%;
 	display: inline-block;
-	color: #f36100;
+	color: #8DC63F;
 	line-height: 90px;
 	text-align: center;
 	-webkit-transition: all 0.3s;
@@ -741,7 +742,7 @@ ol {
 -----------------------*/
 
 .classes-section {
-	background: #151515;
+	background: #0E0E70;
 	padding-bottom: 80px;
 }
 
@@ -876,7 +877,7 @@ ol {
 -----------------------*/
 
 .pricing-section {
-	background: #151515;
+	background: #01014B;
 }
 
 .pricing-section .section-title {
@@ -994,7 +995,7 @@ ol {
 -----------------------*/
 
 .gallery-section {
-	background: #151515;
+	background: #0E0E70;
 	overflow: hidden;
 }
 
@@ -1053,7 +1054,7 @@ ol {
 -----------------------*/
 
 .team-section {
-	background: #151515;
+	background: rgb(1, 1, 75);
 }
 
 .team-section.team-page {
@@ -1176,7 +1177,7 @@ ol {
 -----------------------*/
 
 .gettouch-section {
-	background: #0a0a0a;
+	background: rgb(1, 1, 75);
 	padding: 30px 0 15px;
 }
 
@@ -1245,7 +1246,7 @@ ol {
 -----------------------*/
 
 .footer-section {
-	background: #000000;
+	background: rgb(1, 1, 75);
 	padding-top: 50px;
 }
 
