@@ -1355,6 +1355,13 @@ ol {
 /*---------------------
   Breadcrumb Section
 -----------------------*/
+.breadcrumb-section,
+.blog-hero {
+	padding-top: 215px;
+	padding-bottom: 170px;
+	margin-top: -50px;
+}
+
 .breadcrumb-section-small {
 	height: 400px;
 	padding-top: 230px;
